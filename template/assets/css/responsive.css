@@ -1,0 +1,79 @@
+@media(min-width:992px) and (max-width:1199px){
+    
+}
+@media(min-width: 768px) and (max-width:991px){
+    
+}
+@media(max-width:767px){
+    
+    
+}
+@media(min-width: 576px) and (max-width: 767px){
+    .custom-select {
+        background: #fff;
+        margin: 2px;
+        border-radius: 3px;
+    }
+    .mobile-ham {
+    position: absolute;
+    right: 5px;
+    top: -4px;
+    display: none;
+    }
+    .find-section{
+        margin-top: 297px;
+        padding-top: 0;
+    }
+    .search-section {
+        margin-left: 40px;
+}
+    .btn-lgg{
+        padding: 5px 9px;
+        font-size: 16px;
+        margin: 5px 0px 0px 5px;
+    }
+    .real-wedding-img a img{
+        width: 75%;
+        height: auto;
+    }
+    .real-wedding-img{
+        margin: 0;
+    }
+    .well-box{
+        padding: 10px;
+    }
+    .section-space40 .contact {
+    width: 16%;
+}
+    .section-space40 img {
+    width: 16%;
+    margin-bottom: 0px;
+}
+    .btn-big {
+        padding: 8px 15px;
+    }
+    .ripplelink {
+        font-size: 10px;
+    }
+    .member-ship img{
+        height: auto;
+        width: 127px !important;
+    }
+    .vid-info{
+        border: none;
+    }
+    .glry img{
+        width: 65%;
+    }
+    .bg_counter .counter_part .coun{
+        font-size: 30px;
+    }
+@media(min-width: 320px) and (max-width:575px){
+    
+}
+
+
+
+
+
+
