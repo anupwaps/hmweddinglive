@@ -119,8 +119,8 @@
 							<?php } ?>
 						</ul>
 					</li>
-					<?php } if ($this->Crud_model->admin_permission('frontend_settings')){?>
-					<li <?php if($page_name=="header"||$page_name=="pages"||$page_name=="footer"||$page_name=="gallery_settings"){ ?> class="active-sub active" <?php } ?>>
+					<?php } if ($this->Crud_model->admin_permission('extra_settings')){?>
+					<li <?php if($page_name=="header"||$page_name=="pages"||$page_name=="footer" || $page_name=="extra_page_settings" ||$page_name=="gallery_settings" || $page_name=="follow_connect"|| $page_name=="payment_settings"){ ?> class="active-sub active" <?php } ?>>
 						<a href="#">
 							<i class="fa fa-desktop"></i>
 							<span class="menu-title"><?php echo translate('extra_settings')?></span>
@@ -128,29 +128,18 @@
 						</a>
 						<!--Submenu-->
 						<ul class="collapse">
-							<?php if ($this->Crud_model->admin_permission('choose_theme_color')){?>
+							<?php if ($this->Crud_model->admin_permission('extra_settings')){?>
 							<li <?php if($page_name=="gallery_settings"){ ?> class="active-link" <?php } ?>>
-								<a href="<?=base_url()?>admin/gallery_settings"><i class="fa fa-paint-brush"></i><?php echo translate('gallery_settings')?></a>
+								<a href="<?=base_url()?>admin/gallery_settings"><i class="fa fa-window-maximize"></i><?php echo translate('gallery_settings')?></a>
 							</li>
-							<?php } if ($this->Crud_model->admin_permission('frontend_appearances')){?>
-							<li <?php if($page_name=="header"||$page_name=="pages"||$page_name=="footer"){ ?> class="active-sub active" <?php } ?>>
-								<a href="<?=base_url()?>admin/frontend_appearances"><i class="fa fa-window-restore"></i><?php echo translate('frontend_appearances')?><i class="arrow"></i></a>
-								<!--Submenu-->
-								<ul class="collapse">
-									<?php if ($this->Crud_model->admin_permission('header')){?>
-									<li <?php if($page_name=="header"){ ?> class="active-link" <?php } ?>>
-										<a href="<?=base_url()?>admin/frontend_appearances/header"><i class="fa fa-circle-o"></i><?php echo translate('header')?></a>
-									</li>
-									<?php } if ($this->Crud_model->admin_permission('pages')){?>
-									<li  <?php if($page_name=="pages"){ ?> class="active-link" <?php } ?>>
-										<a href="<?=base_url()?>admin/frontend_appearances/pages"><i class="fa fa-circle-o"></i><?php echo translate('pages')?></a>
-									</li>
-									<?php } if ($this->Crud_model->admin_permission('footer')){?>
-									<li  <?php if($page_name=="footer"){ ?> class="active-link" <?php } ?>>
-										<a href="<?=base_url()?>admin/frontend_appearances/footer"><i class="fa fa-circle-o"></i><?php echo translate('footer')?></a>
-									</li>
-									<?php } ?>
-								</ul>
+							<li <?php if($page_name=="follow_connect"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/follow_connect"><i class="fa fa-window-maximize"></i><?php echo translate('follow_connect_settings')?></a>
+							</li>
+							<li <?php if($page_name=="payment_settings"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/payment_settings"><i class="fa fa-window-maximize"></i><?php echo translate('payment_option_settings')?></a>
+							</li>
+							<li <?php if($page_name=="extra_page_settings"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/extra_page_settings"><i class="fa fa-window-maximize"></i><?php echo translate('extra_page_settings')?></a>
 							</li>
 							<?php } ?>
 						</ul>

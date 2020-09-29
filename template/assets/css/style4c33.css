@@ -4,11 +4,8 @@
 ------------------------------*/
 
 body {
-    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    background-color: #fff;
-    color: #646464;
     /*-webkit-font-smoothing: antialiased;*/
     font-weight: 300;
 }
@@ -19,10 +16,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Roboto', sans-serif;
-    text-transform: uppercase;
     margin: 0px 0 10px 0px;
-    color: #B41E4D;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -63,7 +57,6 @@ ul {
 }
 
 a {
-    color: #00aeaf;
     text-decoration: none;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -169,7 +162,7 @@ button,
 html input[type=button],
 input[type=reset],
 input[type=submit] {
-    background: #ffa405;
+/*    background: #ffa405;*/
     color: #fff;
     border-radius: 4px;
 }
@@ -555,9 +548,8 @@ ul.listnone {
 }
 
 .btn-primary {
-    background-color: #101a4d;
+    background: #c97a70;
     color: #fff;
-    font-family: 'Roboto', sans-serif;
 }
 
 .btn-primary:hover {
@@ -628,7 +620,7 @@ button .btn-default {
 }
 
 .btn-blue {
-    background-color: #101a4d;
+    background-color: #c97a70;
     color: #fff;
     font-family: 'Roboto', sans-serif;
 }
@@ -638,9 +630,6 @@ button .btn-default {
     color: #fff;
 }
 
-.btn-big {
-    padding: 12px 50px;
-}
 
 .btn-primary.focus,
 .btn-primary:focus {
@@ -1069,10 +1058,10 @@ button .btn-default {
     padding: 16px 0px;
     color: #f51f8a;
     cursor: pointer;
-    font-size: 12pxf;
+    font-size: 12px;
     text-transform: uppercase;
     font-weight: 700;
-    border-top: 1px solid #e2e7ee
+    border-top: 1px solid #e2e7ee;
 }
 
 #navigation.small-screen #menu-button:after {
@@ -1247,15 +1236,18 @@ background: -moz-linear-gradient(left, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.2
 }
 
 .finder-caption h2 {
+    font-family: 'Qwigley', cursive;
     font-size: 44px;
-    font-weight: bold;
-    text-shadow: #B41E4D 0px 0px 27px;
+    font-weight: 500;
+        text-shadow: #C97A70 0px 0px 27px;
 }
 
 .finder-caption h2,
 .finder-caption p {
     padding-bottom: 20px;
     color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
 }
 
 .finderform {
@@ -1305,6 +1297,9 @@ background: -moz-linear-gradient(left, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.2
 .ripplelink {
     /*display:block;*/
     text-align: center;
+    font-family: sans-serif;
+    font-weight: 400;
+    font-size: 16px;
     color: #fff;
     text-decoration: none;
     position: relative;
@@ -1393,7 +1388,7 @@ background: -moz-linear-gradient(left, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.2
 .custom-select-trigger {
     position: relative;
     display: block;
-     width: 130px; 
+    width: 130px;
     padding: 0;
     border-radius: 30px;
     font-size: 13px;
@@ -1401,7 +1396,7 @@ background: -moz-linear-gradient(left, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.2
     color: #fff;
     line-height: 50px;
     cursor: pointer;
-    
+
 }
 
 
@@ -1650,7 +1645,8 @@ background: -moz-linear-gradient(left, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.2
     box-shadow: 1px 4px 10px -2px rgba(0, 0, 0, 0.2);
     transition: all 375ms ease-in-out;
 
-    li {
+}
+.cont_select_int li {
         position: relative;
         float: left;
         width: 96%;
@@ -1662,21 +1658,21 @@ background: -moz-linear-gradient(left, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.2
         transition: all 275ms ease-in-out;
         display: block;
         cursor: pointer;
+}
 
-        &:last-child {
+.cont_select_int  &:last-child {
             border-radius: 3px;
             border-bottom: 0px;
         }
 
-        &:hover {
+.cont_select_int &:hover {
             background-color: #EEEEEE;
         }
-    }
 
-    .active {
+.cont_select_int .active {
         background-color: #EEEEEE;
     }
-}
+
 
 /* etiqueta <p> con la opcion selecionada  */
 .selecionado_opcion {
@@ -1898,12 +1894,20 @@ a.login:hover {
 }
 
 .section-title h2 {
-    font-weight: 700 !important;
+    margin: 30px 0px;
+    font-family: 'Qwigley', cursive;
+    font-size: 57px;
+    /* text-transform: uppercase; */
+    font-weight: 500;
+    color: #6E8A95;
+    -webkit-font-smoothing: antialiased;
 }
 
 .section-title p {
-    font-weight: normal;
-    font-size: 14px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #C97A70;
 }
 
 .loginclose {
@@ -2215,15 +2219,15 @@ a.login:hover {
 
 .LV-content h2 {
     font-size: 20px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 600;
 }
 
 .LV-content p {
-    font-size: 13px;
-    font-weight: normal;
-    font-family: 'Roboto', sans-serif;
-    text-align: justify;
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000;
 }
 
 .LV-content img {
@@ -2240,53 +2244,62 @@ a.login:hover {
     display: block;
 }
 
-section.browse-matrimonial {
-    background-color: #07123f;
+.browse-matrimonial {
+    background-color: #fff;
     padding: 20px 5px 15px 20px;
     margin-top: 20px;
 }
 
-section.browse-matrimonial h3 {
+.browse-matrimonial h3 {
     color: #c3c3c3;
     margin-bottom: 30px;
     font-size: 30px;
 }
 
-section.browse-matrimonial ul {
-    text-align: center;
+.browse-matrimonial ul {
+    /*    text-align: center;*/
 }
 
-section.browse-matrimonial .wrapper li:first-child {
+.browse-matrimonial .wrapper li:first-child {
+    font-family: 'Playfair Display', serif;
     border: 0 !important;
     font-weight: bold;
     background: rgba(205, 49, 98, 0.39);
     border-radius: 10px;
-    padding: 1px 10px;
+    padding: 5px 10px;
+    color: #000;
+    text-align: center;
 }
 
-section.browse-matrimonial .wrapper li {
+.browse-matrimonial .wrapper li {
+    font-family: 'Playfair Display', serif;
     display: inline-block;
     padding: 0 5px;
-    border-right: 1px solid #3c3636;
+    border-left: 2px solid #394579;
     color: #c3c3c3;
     font-weight: 400;
     font-size: 13px;
-    
+    width: 16%;
 }
 
 section.browse-matrimonial .wrapper li a {
-    color: #fff;
-    transition: all 0.6s;
-    font-weight: normal;
+    font-family: 'Playfair Display', serif;
+    color: #000;
+    -webkit-transition: all linear 0.6s;
+    -moz-transition: all linear 0.6s;
+    -o-transition: all linear 0.6s;
+    -ms-transition: all linear 0.6s;
+    font-weight: 400;
 }
 
 section.browse-matrimonial .wrapper li a:hover {
     text-decoration: none;
-    color: #d19d25;
+/*    color: #d19d25;*/
 }
 
-section.footer {
-    background: linear-gradient(45deg, #16365dde 30%, #0b5a7b 69%);
+
+.footer {
+/*    background: linear-gradient(45deg, #16365dde 30%, #0b5a7b 69%);*/
     padding: 20px 0px;
 }
 
@@ -2418,10 +2431,10 @@ section.footer {
 }
 
 .footer-two h4 {
-    color: #00ffeb !important;
+    color: #6e8a95 !important;
     font-size: 17px;
     font-weight: 600;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Playfair Display', serif;
     margin-top: 20px;
 }
 
@@ -2438,9 +2451,9 @@ section.footer {
 }
 
 .footer-two ul li a {
-    font-size: 13px;
+    font-size: 17px;
     font-weight: normal;
-    color: #fff;
+    color: #6E8A95;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     transition: all 0.6s;
@@ -2448,11 +2461,11 @@ section.footer {
 
 .footer-two ul li a:hover {
     text-decoration: none;
-    color: #9cf426;
+    color: #c97a70;
 }
 
 .footer-two ul li .fa {
-    color: #fff;
+    color: #6E8A95;
 }
 
 /* ----- LV Tiny Footer -------*/
@@ -2754,35 +2767,36 @@ section.footer {
 
 
 /*----------- Woo Parallux Section----------------*/
-section.module:last-child {
+.module:last-child {
     margin-bottom: 0;
 }
 
-section.module h2 {
+.module h2 {
     font-size: 40px;
-    font-family: 'Roboto', sans-serif;
-    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+/*    text-transform: uppercase;*/
     color: #fff;
-    text-shadow: #B41E4D 0px 0px 27px;
+    text-shadow: #C97A70 0px 0px 27px;
     -webkit-font-smoothing: antialiased;
 }
-    font-weight: bold;
+
+font-weight: bold;
 }
 
-section.module p {
+.module p {
     font-size: 14px;
     color: #fff;
 }
 
-section.module p:last-child {
+.module p:last-child {
     margin-bottom: 0;
 }
 
-section.module.content {
+.module.content {
     padding: 0px 0;
 }
 
-section.module.parallax {
+.module.parallax {
     background-position: 60% 50%;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -2793,14 +2807,14 @@ section.module.parallax {
     padding: 30px 0px;
 }
 
-section.module.parallax h1 {
+.module.parallax h1 {
     color: #fff;
     font-size: 48px;
     font-weight: 700;
     text-align: center;
 }
 
-section.module.parallax-2 {
+.module.parallax-2 {
     background-image: url("../images/overlay_one.jpg");
     background-position: center;
     background-repeat: no-repeat;
@@ -2838,7 +2852,7 @@ section.module.parallax-2 {
 }
 
 .app-download-btn {
-    margin-top: 45px;
+/*    margin-top: 45px;*/
 }
 
 .app-download-btn p {
@@ -2850,11 +2864,11 @@ section.module.parallax-2 {
 
 
 
-section.module.parallax-3 {
+.module.parallax-3 {
     background-image: url(../images/Elite-bg1.jpg);
 }
 
-section.module.parallaxelite {
+.module.parallaxelite {
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -3370,7 +3384,8 @@ input[type="radio"] .styled:checked + label::after {
 
 .real-wedding-title {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 400;
+    font-family: 'Playfair Display', serif;
 }
 
 .story-msg {
@@ -3442,22 +3457,35 @@ input[type="radio"] .styled:checked + label::after {
 
 .ptrn-bg1 {
     /*background-color: #004f8c;*/
-    background-image: url("../../assets/img/skulls.png");
+/*        background-image: url("../../assets/img/skulls.png");*/
 }
 
 .ptrn-bg2 {
     /*background-color: #004f8c;*/
-    background-image: url("../../assets/img/1.png");
+/*
+        background-image: url("../../assets/images/happystorie_bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+*/
 }
 
 .ptrn-bg3 {
     /*background-color: #004f8c;*/
-    background-image: url("../../assets/img/2.png");
+    /*    background-image: url("../../assets/img/2.png");*/
 }
 
 .ptrn-bg4 {
     /*background-color: #004f8c;*/
-    background-image: url("../../assets/img/3.png");
+/*
+    background-image: url("../../assets/images/happystorie_bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+*/
+
 }
 
 
@@ -3722,7 +3750,7 @@ input[type="radio"] .styled:checked + label::after {
 
     .parallax-caption {}
 
-    section.module.parallax h1 {
+    .module.parallax h1 {
         color: #fff;
         font-size: 38px;
         font-weight: 700;
@@ -3754,7 +3782,7 @@ input[type="radio"] .styled:checked + label::after {
         display: none;
     }
 
-    section.module h2 {
+    .module h2 {
         font-size: 18px;
     }
 
@@ -3768,8 +3796,8 @@ input[type="radio"] .styled:checked + label::after {
         font-weight: normal;
     }
 
-/*
-    section.module p {
+    /*
+    .module p {
         font-size: 12px;
         font-weight: normal;
     }
@@ -3967,7 +3995,7 @@ input[type="radio"] .styled:checked + label::after {
         height: 65px;
     }
 
-/*
+    /*
     .mobile-ham {
         position: absolute;
         right: 5px;
@@ -4032,37 +4060,7 @@ input[type="radio"] .styled:checked + label::after {
     }
 }
 
-@media (max-width:320px) {
-    .couple-hero-section-img {
-        min-height: 350px;
-    }
-
-    .aadhaar-holder-mobile {
-        text-align: center;
-        display: inline-block;
-        width: 100%;
-        margin-top: 0px;
-        background: #f1f1f1;
-        position: relative;
-        bottom: 0px;
-    }
-
-    .section-space40 {
-        padding-top: 20px;
-    }
-
-    .find-section {
-        top: 43%;
-    }
-
-    .download-line3 {
-        font-size: 30px;
-    }
-
-    .download-mobile-img {
-        height: 200px;
-    }
-}
+@media (max-width:320px) {}
 
 /* Custom sizes (768px to 1024px) */
 @media (min-width:768px) and (max-width:1024px) {
@@ -4241,50 +4239,55 @@ input[type="radio"] .styled:checked + label::after {
     color: #fff;
     width: 40%;
     font-size: 20px;
-    
+
 
 }
 
 .member-ship {
     margin-bottom: 20px;
-    /* background-image: url(../../assets/img/lov3.gif); */
+    /*    background-image: url(../../assets/img/lov3.gif);*/
 }
+
 .member-ship img {
     width: 175px !important;
     height: 175px;
     border-radius: 50%;
     object-fit: cover;
-    -webkit-box-shadow: 0px 0px 15px 0px rgba(155,155,155,1);
--moz-box-shadow: 0px 0px 15px 0px rgba(155,155,155,1);
-box-shadow: 0px 0px 15px 0px rgba(155,155,155,1);
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(155, 155, 155, 1);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(155, 155, 155, 1);
+    box-shadow: 0px 0px 15px 0px rgba(155, 155, 155, 1);
     position: relative;
     top: 46px;
     display: inline-block !important;
 }
+
 .mt-50 {
     margin-top: 80px;
 }
+
 .bgb {
     padding: 7px;
     border-radius: 5px;
     box-shadow: 0px 0px 13px rgba(68, 68, 68, 0.3);
 }
+
 .feature-block {
     min-height: 162px;
     margin: 15px;
     padding: 20px;
 }
 
-.nw-btn{
+.nw-btn {
     padding: 8px 20px;
     font-size: 14px;
     margin-top: 16px;
     margin-bottom: 16px;
-    background: #101a4d !important;
+    background: #c97a70 !important;
     color: #fff !important;
     border-radius: 20px;
 }
-.btn-lgg{
+
+.btn-lgg {
     padding: 14px 10px;
-    font-size: 16px;   
+    font-size: 16px;
 }

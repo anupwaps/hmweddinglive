@@ -1,79 +1,228 @@
-@media(min-width:992px) and (max-width:1199px){
+@media(min-width:992px) and (max-width:1199px) {
+    .btn-big {
+        margin-top: 10px !important;
+    }
+}
+
+@media(min-width: 768px) and (max-width:991px) {}
+
+@media(max-width:767px) {
+    .sidebar-icon{
+        position: absolute;
+    top: -52px;
+    right: 5px;
+    color: #101a4d;
+    background: #f1f1f1;
+    padding: inherit;
+        font-size: 24px;
+    }
+    .real-wedding-img a img{
+        width: 75%;
+    height: auto;
+    transform: translateX(175%);
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+    .bgb{
+        display: inline-block;
+    }
+    .member-ship img{
+        margin-left: 20px;
+    margin-right: 20px;
+    }
     
 }
-@media(min-width: 768px) and (max-width:991px){
-    
-}
-@media(max-width:767px){
-    
-    
-}
-@media(min-width: 576px) and (max-width: 767px){
+
+@media(min-width: 576px) and (max-width: 767px) {
     .custom-select {
         background: #fff;
         margin: 2px;
         border-radius: 3px;
     }
+
     .mobile-ham {
-    position: absolute;
-    right: 5px;
-    top: -4px;
-    display: none;
+        position: absolute;
+        right: 5px;
+        top: -4px;
+        display: none;
     }
-    .find-section{
+
+    .find-section {
         margin-top: 297px;
         padding-top: 0;
     }
+
     .search-section {
         margin-left: 40px;
-}
-    .btn-lgg{
+    }
+
+    .btn-lgg {
         padding: 5px 9px;
         font-size: 16px;
         margin: 5px 0px 0px 5px;
     }
-    .real-wedding-img a img{
+
+    .real-wedding-img a img {
         width: 75%;
         height: auto;
     }
-    .real-wedding-img{
-        margin: 0;
+
+    .real-wedding-img {
+/*        margin: 0;*/
     }
-    .well-box{
+    .module .mobileapp-img img{
+        transform: translateX(67%);
+    }
+
+    .well-box {
         padding: 10px;
     }
+
     .section-space40 .contact {
-    width: 16%;
-}
+        width: 16%;
+    }
+
     .section-space40 img {
-    width: 16%;
-    margin-bottom: 0px;
-}
+        width: 16%;
+        margin-bottom: 0px;
+    }
+
     .btn-big {
         padding: 8px 15px;
     }
+
     .ripplelink {
         font-size: 10px;
     }
-    .member-ship img{
+
+    .member-ship img {
         height: auto;
         width: 127px !important;
     }
-    .vid-info{
+
+    .vid-info {
         border: none;
     }
-    .glry img{
-        width: 65%;
+
+    .glry img {
+/*        width: 65%;*/
     }
-    .bg_counter .counter_part .coun{
+
+    .bg_counter .counter_part .coun {
         font-size: 30px;
     }
-@media(min-width: 320px) and (max-width:575px){
-    
+    .section-title h2{
+        font-size: 27px;
+    }
+    .footer-two h4{
+        font-size: 20px;
+    }
+    .footer-two ul li a{
+        font-size: 18px;
+    }
 }
 
+@media(min-width: 320px) and (max-width:575px) {
+    .sidebar-icon {
+        top: -62px;
+        right: -6px;
+        background: none;
+    }
+
+    .sidebar-icon i {
+        padding: 5px;
+    }
+
+    .ripplelink {
+        font-size: smaller;
+    }
+
+    .section-title h2 {
+        font-size: 15px;
+    }
+
+    .section-title p {
+        font-size: 9px;
+    }
+
+    .real-wedding-img {
+        transform: translateX(-26%);
+        margin-left: 32%;
+    }
+
+    .section-title h2 {
+        font-size: 14px;
+    }
+
+    .section-title p {
+        font-size: 11px;
+    }
+
+    .feature-info h3 {
+        font-size: 13px;
+    }
 
 
+    .btn-big {
+        margin-top: 12px;
+    }
 
+    section.module.parallax-2 {
+        background-position: center;
+    }
 
+    .module .mobileapp-img img {
+        width: 139px;
+        transform: translateX(27px);
+    }
 
+    .member-ship img {
+        width: 70px !important;
+    }
+
+    .glry img {
+        width: 100%;
+
+    }
+
+    .feature-block {
+        display: inline-block;
+/*        transform: translateX(30%);*/
+    }
+
+    .bg_counter .counter_part .coun {
+        font-size: 20px;
+
+    }
+
+    .bg_counter .counter_part {
+        background: #07123F;
+        padding: 10px 0px;
+        border-radius: 20px;
+        display: inline-grid;
+    }
+
+    .btn-big {
+        padding: 5px 10px;
+        margin-top: 10px;
+    }
+    .footer-two ul li a{
+        font-size: 12px;
+    }
+    .footer-two h4{
+        font-size: 15px;
+    }
+    .myButton{
+background-color: #0b5a7b;
+        border: 1px solid #0b5a7b;
+    }
+    
+/*  FAQ part start  */
+    
+    
+    
+/*  FAQ part ends  */
+    
+    
+
+}

@@ -73,17 +73,19 @@
      <section class="module parallax parallax-2">
          <div class="container">
              <div class="row">
-                 <div class="col-md-5 col-sm-5 mobileapp-img hidden-xs"> <img class="img-fluid" src="<?=base_url()?>template/assets/images/mobile.png" alt="LoveVivah App" /> </div>
-                 <div class="col-md-7 col-sm-7 parallax-caption">
+                 <div class="col-lg-5 col-md-5 col-xs-4 col-sm-12 mobileapp-img"> <img class="img-fluid" src="<?=base_url()?>template/assets/images/mobile.png" alt="LoveVivah App" /> </div>
+                 <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 parallax-caption">
                      <h2>Happiness is Just an App Away!</h2>
                      <p>Find your right match with Lovevivah.com </p>
                      <p style="font-weight:bold;"><i class="fa fa-hand-o-right"></i> Simple | Fast | Convenient | Safe & Secure</p>
                      <div class="app-download-btn">
                          <p>Available on iOS and Android</p>
-                         <a href="#" target="_blank"><span class="membership-icon">
+                         <?php $app_store = $this->db->get_where('general_settings', array('type' => 'app_store_apple'))->row()->value; ?>
+                         <?php $play_store = $this->db->get_where('general_settings', array('type' => 'play_store_google'))->row()->value; ?>
+                         <a href="<?= $app_store;?>" target="_blank"><span class="membership-icon">
                                  <img src="<?=base_url()?>template/assets/images/mobile_store_one.png" alt="">
                              </span></a>
-                         <a href="#" target="_blank"><span class="membership-icon">
+                         <a href="<?= $play_store;?>" target="_blank"><span class="membership-icon">
                                  <img src="<?=base_url()?>template/assets/images/mobile_store_two.png" alt="">
                              </span></a>
                      </div>
@@ -98,9 +100,9 @@
 
      <div class="section-space40 bg-light ptrn-bg1">
          <div class="container">
-             <div class="col-md-10 col-md-offset-1 col-sm-12">
+             <div class="col-lg-10 col-md-offset-1 col-md-12 col-sm-12 col-xs-12">
                  <div class="row">
-                     <div class="col-md-12 col-sm-12">
+                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
                          <div class="section-title mb30 text-center">
                              <h2>Upgrade your membership to connect with those you like.</h2>
                              <p>Search your perfect life-partner from millions of trusted &amp; authentic profiles.</p>
@@ -108,7 +110,7 @@
                      </div>
                  </div>
                  <div class="row">
-                     <div class="col-md-4 col-sm-4">
+                     <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12">
                          <div class="well-box feature-block text-center" data-toggle="modal" data-target="#loginModal">
                              <div class="membership-icon">
 
@@ -121,7 +123,7 @@
                              </div>
                          </div>
                      </div>
-                     <div class="col-md-4 col-sm-4">
+                     <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12">
                          <div class="well-box feature-block text-center" data-toggle="modal" data-target="#loginModal">
                              <div class="membership-icon">
                                  <img src="<?=base_url()?>template/assets/images/selected_icon/Email.png" alt="">
@@ -132,21 +134,21 @@
                              </div>
                          </div>
                      </div>
-                     <div class="col-md-4 col-sm-4">
+                     <div class="col-lg-4 col-md-12 col-xs-12 col-sm-12">
                          <div class="well-box feature-block text-center" data-toggle="modal" data-target="#loginModal">
                              <div class="membership-icon">
                                  <img src="<?=base_url()?>template/assets/images/selected_icon/Chat.png" alt="">
                              </div>
                              <div class="feature-info">
                                  <h3>Chat</h3>
-                                 <p>Chat instantly with all other<br>
+                                 <p>Chat instantly with all other free members and premium members <br>
                                      online users</p>
                              </div>
                          </div>
                      </div>
                  </div>
                  <div class="row">
-                     <div class="col-md-12 mt30 text-center"> <a href="<?= base_url()?>home/plans" class="btn btn-blue bor-r50 btn-big ripplelink" id="HP_Membership_CTA">Browse Membership Plans</a>
+                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt30 text-center"> <a href="<?= base_url()?>home/plans" class="btn btn-blue bor-r50 btn-big ripplelink" id="HP_Membership_CTA">Browse Membership Plans</a>
                          <p class="member-know"> To know more, call us @ +8801731556712</p>
                      </div>
                  </div>
@@ -166,86 +168,7 @@
 
      <!-- Elite Package Section-->
 
-     <style type="text/css">
-         .bg-prods {
-             background: #180405 url(assets/images/Elite-bg1.jpg) bottom repeat-x;
-             min-height: 400px;
-             border-bottom: #f7e1e6 solid 1px;
-         }
-
-         .prod-ops {
-             padding: 20px;
-             text-align: center;
-             border-radius: 50px 0px;
-             box-shadow: #180408 1px 1px 6px;
-             /*background-image: linear-gradient(to top, #49082a 0%, #170104 100%);*/
-             margin-bottom: 10px;
-             border: solid 1px rgba(255, 255, 255, 0.13);
-             background: #0b0b0b url(assets/images/back.jpg) no-repeat center top;
-         }
-
-         .total-single-service-area .single-services-area {
-             background: url(assets/images/bg-box.png) no-repeat;
-             padding: 20px 0;
-             transition: all 0.5s ease 0s;
-             background-size: cover;
-             background-position: 0 0;
-
-         }
-
-         .total-single-service-area .single-services-area:hover {
-             background: url(assets/images/bg-box-hover.png) no-repeat;
-             padding: 30px 0;
-             transition: all 0.5s ease 0s;
-             background-size: cover;
-             background-position: 0 0;
-
-         }
-
-         .total-single-service-area .single-services-area h3 {
-             font-family: 'Open Sans', Arial;
-             font-size: 18px;
-             color: #fff;
-             font-weight: 600;
-             position: relative;
-             margin: 20px 0px 15px 0px;
-             line-height: 35px;
-             transition: all 0.5s ease 0s;
-         }
-
-         .total-single-service-area .single-services-area h3 strong {
-             color: #cd3162;
-         }
-
-         .total-single-service-area .single-services-area h3 span {
-             font-weight: 700;
-             color: #e9b52e;
-             font-style: italic;
-             text-transform: uppercase;
-         }
-
-         .read-more {
-             display: inline-block;
-         }
-
-         .read-more a {
-             display: block;
-             padding: 10px 30px;
-             font-weight: 600;
-             border: 1px solid;
-             transition: all 0.5s ease 0s;
-             -webkit-border-radius: 40px;
-             -moz-border-radius: 40px;
-             border-radius: 40px;
-             color: #fff;
-             border-color: #4f46ff;
-         }
-
-         .read-more a:hover {
-             background: #4f46ff;
-             color: #ffffff;
-         }
-     </style>
+     
 
      <!--    Elite Package Section ends     -->
      <!--bg video starts-->
@@ -255,7 +178,7 @@
 
      <div class="section-space40 lv-fotter-text ptrn-bg4">
          <div class="container">
-             <div class="col-md-10 col-md-offset-1 LV-content">
+             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ection-title text-center LV-content">
                  <h2>About HM WEDDINGS</h2>
                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
              </div>

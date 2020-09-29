@@ -3,13 +3,12 @@
     .sidebar-icon {
         position: absolute;
         top: -62px;
-        right: -480px;
     }
     .sidebar-icon i {
         text-align: center;
         color: #ffffff;
-        background: #101a4d;
-        padding: 10px;
+        background: #c97a70;
+        margin: 10px;
     }
     .real-wedding-img a img {
        width: 66%;
@@ -53,7 +52,6 @@
         width: 20%;
     }
     .member-ship img{
-        width: 113px !important;
      height: auto;
     }
     .feature-info h3{
@@ -72,14 +70,11 @@
     border-radius: 20px;
     }
     .glry img{
-        width: 80%;
+/*        width: 80%;*/
     }
     .myButton {
         font-size: 12px;
         padding: 7px 12px;
-    }
-    .bg_counter .counter_part .coun{
-        font-size: 28px;
     }
 }
 

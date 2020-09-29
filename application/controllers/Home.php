@@ -51,6 +51,7 @@ class Home extends CI_Controller {
         $page_data['all_languages'] = $this->db->get('language')->result();
         $member_approval = $this->db->get_where('general_settings', array('type' => 'member_approval_by_admin'))->row()->value;
         $max_premium_member_num = $this->db->get_where('frontend_settings', array('type' => 'max_premium_member_num'))->row()->value;
+        $max_pre_num = 6;
         $max_story_num = $this->db->get_where('frontend_settings', array('type' => 'max_story_num'))->row()->value;
         if (!empty($this->session->userdata['member_id']))
         {
@@ -63,18 +64,19 @@ class Home extends CI_Controller {
             }
             $array_data = array('membership' => 2, 'is_blocked' => 'no','is_closed' => 'no','gender'=>$member_gender);
             $array_data = status($member_approval, $array_data);  
-            $page_data['premium_members'] = $this->db->order_by('rand()')->get_where('member', $array_data , $max_premium_member_num)->result();
+            $page_data['premium_members'] = $this->db->order_by('rand()')->get_where('member', $array_data , $max_pre_num)->result();
         }
         else
         {
             $array_data = array('membership' => 2, 'is_blocked' => 'no','is_closed' => 'no');
             $array_data = status($member_approval, $array_data);  
-            $page_data['premium_members'] = $this->db->order_by('rand()')->get_where('member', $array_data , $max_premium_member_num)->result();
+            $page_data['premium_members'] = $this->db->order_by('rand()')->get_where('member', $array_data , $max_pre_num)->result();
         }
-
         $page_data['happy_stories'] = $this->db->get_where('happy_story', array('approval_status' => 1), $max_story_num)->result();
         $page_data['all_plans'] = $this->db->get("plan")->result();
+        $page_data['gallery'] = $this->db->order_by('rand()')->limit($max_pre_num)->get("gallery")->result();
         // $this->load->view('front/index', $page_data);
+        // print_r(count($page_data['gallery'] ));
         $home_search_style = $this->db->get_where('frontend_settings', array('type' => 'home_search_style'))->row()->value;
         if ($home_search_style == '3') {
             $this->load->view('front/index2', $page_data);
@@ -4217,7 +4219,7 @@ class Home extends CI_Controller {
             $page_data['page'] = "about_us";
             $page_data['bottom'] = "about_us.php";
            
-            $this->load->view('front/index', $page_data);
+            $this->load->view('front/extra_page');
     
     }
 

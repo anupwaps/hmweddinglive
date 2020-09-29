@@ -3,15 +3,12 @@
 
 <footer class="tiny-footer"><span><?=translate('copyright')?> &copy; <?=date("Y")?>, <?=$this->system_name;?>. All Rights Reserved</span></footer>
 
+
      <!--   js  -->
 <script type="text/javascript" src="<?=base_url()?>template/assets/js/bootstrap/bootstrap.min.js"></script>
-<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script> -->
 <script type="text/javascript" src="<?=base_url()?>template/assets/js/more.js"></script>
 <script src="<?=base_url()?>template/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="<?=base_url()?>template/assets/app/HomeApp7893.js?v=24"></script>
-<!-- <script type="text/javascript" src="<?=base_url()?>template/assets/js/countdown/countdown.js"></script> -->
-<script src="<?=base_url()?>template/assets/js/jquery.counterup.min.js"></script>
-<!-- <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=2fb3a8e7372ac27c840eece197622aa4537838cf'></script> -->
 
 
 <?php include_once 'modal.php'; ?>
@@ -156,14 +153,28 @@
 
          // Carousel initialization
          owl.owlCarousel({
-             loop: true,
-             margin: 0,
-             responsive: true,
-             navSpeed: 2000,
-             items: 3,
-             autoplay: true,
-
-         });
+            loop: true,
+            margin: 0,
+            responsiveClass:true,
+            navSpeed: 2000,
+            autoplay: true,
+            smartSpeed: 250,
+            responsive:{
+        0:{
+            items:1,
+            nav:false,
+        },
+        600:{
+            items:3,
+            nav:false,
+        },
+        1000:{
+            items:3,
+            nav:false,
+            loop:true,
+        }
+    }
+        });
      </script>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -264,7 +275,11 @@
         }, 500); // <-- time in milliseconds
     }
 </script>
-
+<script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
  </body>
 
  </html>

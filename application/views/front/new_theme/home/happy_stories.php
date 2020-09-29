@@ -1,9 +1,9 @@
 <div class="section-space40 ptrn-bg2" ng-app="HomePage">
     <!-- Success Stories Start -->
     <div class="container">
-        <div class="col-md-10 col-md-offset-1 col-sm-12">
+        <div class="col-lg-10 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
             <div class="row">
-                <div class="col-md-12 col-sm-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="section-title mb20 text-center">
                         <h2>Be inspired by Real Weddings</h2>
                         <p>Find inspiration for your Special Day. Yours could be the next Success Story.</p>
@@ -12,8 +12,8 @@
             </div>
             <div class="row ng-scope">
             <?php foreach ($happy_stories as $happy_storie): ?>
-                <div class="col-md-4 col-sm-4 ">
-                    <div class="real-wedding-block mb30">
+                <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+                    <div class="real-wedding-block">
                         <!-- real wedding block -->
                         <?php
                             $story_image = $happy_storie->image;

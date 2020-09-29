@@ -32,11 +32,7 @@
                 foreach($social_links as $sl){
             ?>      	      
             <li> <a href="<?= $sl->value;?>" target="_blank">
-                <?php if($sl->icon){?>
-                    <i class="<?= $sl->icon;?>"></i>
-                <?php } else{?>
-                    <img src="<?= base_url().'uploads/social_image/'.$sl->social_image?>">
-                <?php }?>
+                <i class="<?= $sl->icon;?>"></i>
             </a></li>
             <?php } ?>
         </ul>

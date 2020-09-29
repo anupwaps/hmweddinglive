@@ -57,6 +57,9 @@
 		                <li>
 		                    <a data-toggle="tab" href="#demo-stk-lft-tab-6"><?php echo translate('location_map')?></a>
 		                </li>
+		                <li>
+		                    <a data-toggle="tab" href="#demo-stk-lft-tab-7"><?php echo translate('youtube_link')?></a>
+		                </li>
 		            </ul>
 		
 		            <!--Tabs Content-->
@@ -78,6 +81,9 @@
 		                </div>
 		                <div id="demo-stk-lft-tab-6" class="tab-pane fade">
 		                    <?php include_once "location_map.php";?>
+		                </div>
+		                <div id="demo-stk-lft-tab-7" class="tab-pane fade">
+		                    <?php include_once "youtube_link.php";?>
 		                </div>
 		            </div>
 		        </div>

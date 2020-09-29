@@ -1,8 +1,10 @@
-h2 {
+.browse-matrimonial h2 {
     margin: 30px 0px;
-    font-family: 'Roboto', sans-serif;
-    text-transform: uppercase;
-    color: #B41E4D;
+    font-family: 'Qwigley', cursive;
+    font-size: 57px;
+    /* text-transform: uppercase; */
+    font-weight: 500;
+    color: #6E8A95;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -17,6 +19,23 @@ h2 {
     padding-right: 0px;
 }
 */
+
+.find-section .form-group a i{
+    float: right;
+    margin-top: 30%;
+    font-size: 140%;
+    color: #fff;
+    transform: translateY(-50%);
+    height: 40px;
+    width: 40px;
+    background: #c97a70;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+}
+.find-section
+.find-section
+
 .custom-select-trigger {
     position: relative;
     display: block;
@@ -36,15 +55,15 @@ h2 {
 }
 .header-btns .phone li a{
     font-family: sans-serif;
-    font-weight: 600;
-    font-size: 13px;
+    font-weight: 400;
+    font-size: 16px;
     color: #fff;
 }
 .header-btns .phone li{
     list-style: none;
     margin: 5px 0px;
-    background: #1C3554;
-    padding: 5px 10px;
+    background: #c97a70;
+    padding: 10px 15px;
     border-radius: 30px;
     display: inline-block;
 }
@@ -75,11 +94,11 @@ h2 {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c5393f+30,a5224b+69 */
     background: #c5393f;
     /* Old browsers */
-    background: -moz-linear-gradient(45deg, #c5393f 30%, #a5224b 69%);
+    background: -moz-linear-gradient(45deg, #rgba(201, 122, 112, 0.3) 30%, #(201, 122, 112, 0.69) 69%);
     /* FF3.6-15 */
-    background: -webkit-linear-gradient(45deg, #c5393f 30%, #a5224b 69%);
+    background: -webkit-linear-gradient(45deg, #rgba(201, 122, 112, 0.3) 30%, #(201, 122, 112, 0.69) 69%);
     /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(45deg, #16365dc7 30%, #0c7cac 69%);
+    background: linear-gradient(45deg, rgba(201, 122, 112, 0.3) 30%, rgba(201, 122, 112, 0.69) 69%);
     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c5393f', endColorstr='#a5224b', GradientType=1);
     /* IE6-9 fallback on horizontal gradient */
@@ -90,21 +109,29 @@ h2 {
 }
 
 .side-feedback p a {
-    color: #00ffeb;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
 }
 
 /*module section overlay*/
 section.module p {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: 16px;
     font-weight: 400;
     color: #fff;
     padding-bottom: 20px;
 }
 
+.btn-big {
+    padding: 12px 50px;
+    margin-top: 10px;
+}
 /*-------------------------------Membership section------------------------------------*/
 
 .feature-info h3 {
+    font-family: 'Playfair Display', serif;
     font-size: 16px;
     color: #333;
     font-weight: 600;
@@ -173,9 +200,6 @@ section.module p {
 }
 
 
-.image_slider {
-    
-}
 
 .image_slider .item_one {
     width: 180%;
@@ -186,9 +210,22 @@ section.module p {
     padding-right: 0px !important;
 }
 
+.section-space40 .section-space40_bg {
+    background: #000;
+}
+
 .section-space40 img {
     width: 20%;
     margin-bottom: 10px;
+}
+.section-space40 h2 {
+    margin: 30px 0px;
+    font-family: 'Qwigley', cursive;
+    font-size: 57px;
+    /* text-transform: uppercase; */
+    font-weight: 500;
+    color: #6E8A95;
+    -webkit-font-smoothing: antialiased;
 }
 
 .section-space40 .contact {
@@ -200,9 +237,7 @@ section.module p {
 
 }
 
-.member-ship img {
-   
-}
+
 
 ul.inline-links {
     margin: 0;
@@ -239,7 +274,7 @@ ul.inline-links.inline-links--style-2 > li > a {
 /*bg video starts*/
 /*bg video starts*/
 #bg_video {
-    /*margin: 100px 0px;*/
+    margin: 100px 0px;
 }
 
 /*
@@ -251,26 +286,26 @@ ul.inline-links.inline-links--style-2 > li > a {
     margin-top: 60px;
 }
 .vid-info{
-    background: rgb(47 157 207 / 82%);
-    margin: 30px 0 0 -150px;
+    background: rgb(233 191 184);
+    margin: 30px 0 0 -130px;
     padding-left: 130px;
     position: relative;
     border-radius: 40px;
-    border: 4px solid rgb(207 180 95);
-    box-shadow: -1px -5px 40px 0px rgb(255 255 255 / 80%);
+    border: 2px solid #A96B5E;
+    box-shadow: 1px 9px 15px 2px #A96B5E;
 }
 
 #bg_video .right p {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    color: #fff;
-    font-weight: normal;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: #000000;
+    font-weight: 400;
     padding: 20px;
 }
 #bg_video{
-/* background-image: url(../img/gft.gif); */
-    background-position: center;
+ background-image: url("../../assets/images/happystorie_bg.jpg");
     background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
     background-attachment: fixed;
     padding-top: 80px;
@@ -516,9 +551,10 @@ ul.inline-links.inline-links--style-2 > li > a {
 /*gallary section*/
 .bg_counter{
     margin: 50px 0px;
+    
 }
 .bg_counter .counter_part{
-    background: #07123F;
+    background: #c97a70;
     padding: 20px 0px;
     border-radius: 20px;
 }
@@ -530,10 +566,14 @@ ul.inline-links.inline-links--style-2 > li > a {
 }
 /*map start*/
 #bg_map {
-/*    background: rgba(186, 186, 188, 0.49);*/
+/*    background: rgba(186, 186, 188, 0.6);*/
+    
 }
 
 /*footer part*/
+.footer{
+    background: #EAF5F9;
+}
 .footer .list li {
     -webkit-transition: all linear 0.3s;
     -ms-transition: all linear 0.3s;
@@ -551,27 +591,8 @@ ul.inline-links.inline-links--style-2 > li > a {
 
 .footer .icons {
     width: 36px;
-    height: 36px;
-    border-radius: 50%;
     margin: 0;
     padding: 0;
-    -webkit-transition: all linear 0.4s;
-    -moz-transition: all linear 0.4s;
-    -ms-transition: all linear 0.4s;
-    -o-transition: all linear 0.4s;
-
-}
-
-.footer .icons:hover {
-   -webkit-box-shadow: 0px 0px 33px -6px rgba(0,255,235,1);
--moz-box-shadow: 0px 0px 33px -6px rgba(0,255,235,1);
-box-shadow: 0px 0px 33px -6px rgba(0,255,235,1);
-    -webkit-transition: all linear 0.4s;
-    -moz-transition: all linear 0.4s;
-    -ms-transition: all linear 0.4s;
-    -o-transition: all linear 0.4s;
-
-
 }
 
 
@@ -595,8 +616,8 @@ box-shadow: 0px 0px 33px -6px rgba(0,255,235,1);
     cursor: pointer;
     font-weight: 400;
     font-size: 15px;
-    color: #ffffff;
-    border: 1px solid #fff;
+    color: #6e8a95;
+    border: 1px solid #6e8a95;
     display: inline-block;
     margin-top: 15px;
     margin-bottom: 30px;

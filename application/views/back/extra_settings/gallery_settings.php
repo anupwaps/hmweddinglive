@@ -26,10 +26,16 @@
 		<!--===================================================-->
 		<div class="panel">
         
-			<div class="alert alert-success" id="success_alert" style="display: none; position: fixed; top: 7%; right: 1%; width: 15%; z-index: 10000">
-                <!-- <button class="close" data-dismiss="alert"><i class="pci-cross pci-circle"></i></button> -->
-                <?php echo $this->session->flashdata('success');?>
-            </div>
+        <?php if($this->session->flashdata('success')){?>
+        <div class="alert alert-success" role='alert'>
+            Successfully Added
+        </div>
+        <?php }?>
+        <?php if($this->session->flashdata('error')){?>
+        <div class="alert alert-success" role='alert'>
+            Successfully Deleted
+        </div>
+        <?php }?>
 			<div class="panel-heading">
 				<h3 class="panel-title"><?php echo translate('choose_image')?></h3>
 			</div>
@@ -41,7 +47,7 @@
                             <div class="col-xs-12 col-md-12">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Name</label>
+                                        <label>Gallery Image</label>
                                         <input type="file" name="image" class="form-control" required>
                                     </div>
                                     <div class="form-group">
@@ -110,6 +116,6 @@
 </script>
 <script>
 	setTimeout(function() {
-	    $('#success_alert').fadeOut('fast');
+	    $('.alert-success').fadeOut('fast');
 	}, 5000); // <-- time in milliseconds
 </script>

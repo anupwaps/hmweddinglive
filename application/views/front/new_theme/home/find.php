@@ -1,4 +1,5 @@
-<div class="find-section">
+        <!-- /.Find search section-->
+        <div class="find-section">
             <!-- Find search section-->
             <div class="container container-sm">
                 <div class="row">
@@ -13,7 +14,7 @@
                                     <div class="search-section">
 
                                         <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-3 no-padding land-lookingfor">
-                                            <select name="looking_for" id="Looking" class="custom-select sources" placeholder="Looking for">
+                                            <select name="looking_for" id="Looking" class="custom-select sources">
                                                 <option value="" title="Looking for a" selected></option>
                                                 <option value="f" title="Bride">Bride</option>
                                                 <option value="m" title="Groom">Groom</option>
@@ -21,7 +22,7 @@
                                         </div>
 
                                         <div style="display: flex" class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding land-agefrom agefromto_mob-w">
-                                            <select name="age_from" id="agefrom" class="custom-select sources coll" placeholder="Age From">
+                                            <select name="age_from" id="agefrom" class="custom-select sources coll">
 
                                                 <option value="" selected title="Age From"></option>
 
@@ -200,8 +201,8 @@
 
 
                                             </select>
-                                            
-                                            <select name="age_to" id="ageto" class="custom-select sources colr" placeholder="Age To">
+
+                                            <select name="age_to" id="ageto" class="custom-select sources colr">
 
                                                 <option value="" selected title="Age To"></option>
 
@@ -382,14 +383,10 @@
                                         </div>
 
 
-<!--
-                                        <div class="form-group col-lg-2 col-md-3 col-sm-3 col-xs-3 no-padding land-ageto agefromto_mob-w">
-                                            
-                                        </div>
--->
+
 
                                         <div style="display: flex" class="form-group col-lg-3 col-md-3 col-sm-4 col-xs-4 no-padding land-agefrom agefromto_mob-w">
-                                            <select name="height" id="height" class="custom-select sources coll" placeholder="Height From">
+                                            <select name="height" id="height" class="custom-select sources coll">
 
                                                 <option value="" selected title="Height From"></option>
 
@@ -419,8 +416,8 @@
 
 
                                             </select>
-                                        
-                                            <select name="height" id="height" class="custom-select sources colr" placeholder="Height To">
+
+                                            <select name="height" id="height" class="custom-select sources colr">
 
                                                     <option value="" selected title="Height To"></option>
 
@@ -448,17 +445,17 @@
                                                 </select>
 
                                         </div>
-                                        
-<!--
+
+                                        <!--
                                         <div class="form-group col-lg-1 col-md-1 col-sm-3 col-xs-3 no-padding land-agefrom agefromto_mob-w">
-                                            
+
                                         </div>
 -->
 
 
                                         <div class="form-group col-lg-2 col-md-2 col-sm-3 col-xs-3 no-padding land-religion">
-                                            
-                                            
+
+
 
                                             <select name="religion[]" id="Religion" class="custom-select sources" placeholder="Select Religion">
                                                 <option class="list" value='0' title="">Doesn't matter</option>
@@ -500,10 +497,10 @@
                                         </div>
 
                                         <div class="form-group col-lg-1 col-md-2 col-sm-3 col-xs-3 no-padding">
-                                            
+
 
                                             <select name="Country[]" id="Country" class="custom-select sources arrow-down" placeholder="Country">
-                                                
+
                                                 <option value="Afganistan">Afghanistan</option>
                                                 <option value="Albania">Albania</option>
                                                 <option value="Algeria">Algeria</option>
@@ -530,7 +527,7 @@
                                                 <option value="Bhutan">Bhutan</option>
                                                 <option value="Bolivia">Bolivia</option>
                                                 <option value="Bonaire">Bonaire</option>
-                                                <option value="Bosnia & Herzegovina">Bosnia & Herzegovina</option>
+                                                <option value="Bosnia & Herzegovina">Bosnia &amp; Herzegovina</option>
                                                 <option value="Botswana">Botswana</option>
                                                 <option value="Brazil">Brazil</option>
                                                 <option value="British Indian Ocean Ter">British Indian Ocean Ter</option>
@@ -692,13 +689,13 @@
                                                 <option value="St Kitts-Nevis">St Kitts-Nevis</option>
                                                 <option value="St Lucia">St Lucia</option>
                                                 <option value="St Maarten">St Maarten</option>
-                                                <option value="St Pierre & Miquelon">St Pierre & Miquelon</option>
-                                                <option value="St Vincent & Grenadines">St Vincent & Grenadines</option>
+                                                <option value="St Pierre & Miquelon">St Pierre &amp; Miquelon</option>
+                                                <option value="St Vincent & Grenadines">St Vincent &amp; Grenadines</option>
                                                 <option value="Saipan">Saipan</option>
                                                 <option value="Samoa">Samoa</option>
                                                 <option value="Samoa American">Samoa American</option>
                                                 <option value="San Marino">San Marino</option>
-                                                <option value="Sao Tome & Principe">Sao Tome & Principe</option>
+                                                <option value="Sao Tome & Principe">Sao Tome &amp; Principe</option>
                                                 <option value="Saudi Arabia">Saudi Arabia</option>
                                                 <option value="Senegal">Senegal</option>
                                                 <option value="Seychelles">Seychelles</option>
@@ -725,11 +722,11 @@
                                                 <option value="Togo">Togo</option>
                                                 <option value="Tokelau">Tokelau</option>
                                                 <option value="Tonga">Tonga</option>
-                                                <option value="Trinidad & Tobago">Trinidad & Tobago</option>
+                                                <option value="Trinidad & Tobago">Trinidad &amp; Tobago</option>
                                                 <option value="Tunisia">Tunisia</option>
                                                 <option value="Turkey">Turkey</option>
                                                 <option value="Turkmenistan">Turkmenistan</option>
-                                                <option value="Turks & Caicos Is">Turks & Caicos Is</option>
+                                                <option value="Turks & Caicos Is">Turks &amp; Caicos Is</option>
                                                 <option value="Tuvalu">Tuvalu</option>
                                                 <option value="Uganda">Uganda</option>
                                                 <option value="United Kingdom">United Kingdom</option>
@@ -754,7 +751,10 @@
                                         </div>
 
                                         <div class="form-group col-lg-1 col-md-1 col-sm-12 col-xs-12 no-padding land-search">
-                                            <button type="submit" class="btn btn-primary bor-rmd btn-lgg btn-block ripplelink" id="HP_Search_Now">Search</button>
+<!--                                            <button type="submit" class="btn btn-primary bor-rmd btn-lgg btn-block ripplelink" id="HP_Search_Now">Search</button>-->
+                                           <a href="#">
+                                               <i class="fa fa-search" id="HP_Search_Now"></i>
+                                           </a>
                                         </div>
 
                                     </div>
@@ -765,6 +765,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- /.Find search section-->
     </div>
+    <!-- slider end-->

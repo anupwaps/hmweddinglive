@@ -3981,7 +3981,6 @@ input:-webkit-autofill:focus {
 /** ========================   Doashboard =====================**/
 
 .top-nav {
-	background: #101c4e;
 	z-index: 1000;
 	padding:10px 20px;
 }
@@ -3999,11 +3998,11 @@ input:-webkit-autofill:focus {
   	font-size:30px;
   }
 .top-nav a {
-	color: #fff;
+	color: #000;
 	text-decoration: none;
 }
 .top-nav .top-trust {
-	color: #fff;
+	color: #000;
 	font-size: 12px;
 	font-weight: 300;
 	padding:0px;
@@ -4798,7 +4797,7 @@ section.browse-matrimonial .wrapper li a:hover {
 	color: #d19d25;
 }
 section.footer {
-	background-color: #202020;
+/*	background-color: #202020;*/
 	padding: 20px 50px;
 }
 .list-unstyled {
@@ -5384,11 +5383,9 @@ a.lightbox-close:after {content: "";display: block;height: 30px;width: 1px;backg
 
 
 .about-heading { 
-	background:url(../images/default-11.jpg); 
-	background-position: center; 
-	padding: 90px;
-	 
-     display: block;
+	background:url(../images/counselling/homepage_bg.jpg) no-repeat center; 
+	background-size: cover;
+    background-attachment: fixed;
 }
 .about-heading h1{
 	font-size:45px;
@@ -5416,7 +5413,8 @@ background: #fff;
 border: 3px solid #f5f4f4;
 position: relative;
 z-index: 999;
-top: -57px;
+/*top: -57px;*/
+    margin-top: 100px;
 }
 
 

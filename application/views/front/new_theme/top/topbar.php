@@ -1,7 +1,7 @@
 <div class="header-v2 navbar-fixed-top">
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-sm-4 col-xs-12 logo">
+            <div class="col-lg-3 col-md-3 col-sm-2 col-xs-2 logo">
                 <div class="navbar-brand logo-area">
                     <a href="<?=base_url()?>home/">
                         <?php
@@ -21,16 +21,16 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-3 text-center">
                 <div class="header-btns">
                     <ul class="phone">
                         <li>
                             <a href="#">
                                 <p>
                                     <span style="padding-right: 5px;">
-                                        Monday - Friday
+                                    <?php echo $days = $this->db->get_where('general_settings', array('type' => 'working_day'))->row()->value; ?>
                                     </span>
-                                    08:00 AM - 06:00 PM
+                                    <?php echo $hours = $this->db->get_where('general_settings', array('type' => 'working_hours'))->row()->value; ?>
                                 </p>
                             </a>
                         </li>
@@ -41,7 +41,7 @@
 
 
             </div>
-            <div class="col-md-5 col-sm-8 col-xs-2 hidden-xs"> <a class="sidebar-icon btn btn-link" id="sidebarCollapse"> <i class="fa fa-bars"></i> </a>
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12"> <a class="sidebar-icon btn btn-link" id="sidebarCollapse"> <i class="fa fa-bars"></i> </a>
 
                 <div class="header-btns ch_top_bar2">
 

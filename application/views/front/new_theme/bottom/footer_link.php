@@ -2,7 +2,7 @@
         <div class="container footer-two">
            
         <div class="row">
-            <div class="col-md-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                 <div class="col-md-3 col-sm-6 col-xs-6">
                     <h4>Our Information</h4>
@@ -130,113 +130,79 @@
             </div>
         </div>
             
-            <div class="row">
-                <div class="col-md-12 col-sm-6 col-xs-6">
-                       
-                        <div class="col-md-6 col-sm-3 col-xs-3">
-
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <h4>Follow Us</h4>
                         <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/001-facebook.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/002-twitter.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/003-linkedin.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/006-instagram.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/007-link.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/010-youtube.png" alt=""></a></li>
+                        <?php
+                            $follow_us = $this->db->get_where('follow_connect', array('type'=>'0'))->result();
+                            foreach($follow_us as $sl){
+                        ?>  
+                            <li> 
+                                <a href="<?= $sl->link; ?>" target="_blank" data-toggle="tooltip" title="<?= $sl->title;?>">
+                                    <img class="icons " src="<?= base_url().'uploads/follow_connect/'.$sl->image?>" alt="">
+                                </a>
+                            </li>
+                        <?php }?>
                         </ul>
 
                         
 
 
 
-                    </div>
+                </div>
 
-                        <div class="col-md-6 col-sm-3 col-xs-3">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
+                            <h4>Connect Us</h4>
                             <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
-                               <h4>Connect Us</h4>
-                        <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
                             
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/004-google-plus.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/005-whatsapp.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/008-skype.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons " src="<?=base_url()?>template/assets/images/009-wechat.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons" src="<?=base_url()?>template/assets/images/icons/001-messenger.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons" src="<?=base_url()?>template/assets/images/icons/003-viber.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons" src="<?=base_url()?>template/assets/images/icons/004-stumbleupon.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons" src="<?=base_url()?>template/assets/images/icons/005-gmail.png" alt=""></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons" src="<?=base_url()?>template/assets/images/icons/line.png" /></a></li>
-                            <li> <a href="#" target="_blank"><img class="icons" src="<?=base_url()?>template/assets/images/icons/imo.png" alt=""></a></li>
-                        </ul>
-                            <li>
+                            <?php
+                                $connect_us = $this->db->get_where('follow_connect', array('type'=>'1'))->result();
+                                foreach($connect_us as $sl){
+                            ?>  
+                                <li> 
+                                    <a href="<?= $sl->link; ?>" target="_blank" data-toggle="tooltip" title="<?php if($sl->number){echo $sl->number;}else{echo $sl->title;} ?>">
+                                        <img class="icons " src="<?= base_url().'uploads/follow_connect/'.$sl->image?>" alt="">
+                                    </a>
                                 </li>
+                            <?php }?>
                             </ul>
-                    </div>
-
-                    </div>
+                        </ul>
+                </div>
             </div>
-            
-            <div class="row">
-                <div class="col-md-12 col-sm-6 col-xs-6">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
-                            <div class="col-md-8 col-sm-8 col-xs-8">
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
                                 <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
                                     <h4>Your All Trusted Partner With Us:</h4>
+                                    <?php
+                                        $payment_settings = $this->db->get('payment_settings')->result();
+                                        foreach($payment_settings as $sl){
+                                    ?>  
                                     <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_74x46.jpg" border="0" alt="PayPal Logo"></a>
+                                        <a href="#" target="_blank" data-toggle="tooltip" title="<?= $sl->card_name;?>"><img class="icons_one" src="<?= base_url().'uploads/payment_settings/'.$sl->image?>" border="0" alt="PayPal Logo"></a>
                                     </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/visa_new.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/west-union-logo-png.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/mastercard.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/american_express.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/jcb.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/citylogo.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/islami_bank.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/pubali_bank_ltd.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/brac_bank.png" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/bkash.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" target="_blank"><img class="icons_one" src="<?=base_url()?>template/assets/images/icons/dbbl.jpg" alt=""></a>
-                                    </li>
+                                    <?php } ?>
                                 </ul>
 
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
 
                                 <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
                                     <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
                                         <h4>App Available on</h4>
                                         <li>
-                                            <a href="#" target="_blank" data-toggle="tooltip" title="Apps Store!"><img src="<?=base_url()?>template/assets/images/mobile_store_one.png" alt=""></a>
+                                            <a href="<?= $app_store; ?>" target="_blank" data-toggle="tooltip" title="Apps Store!"><img src="<?=base_url()?>template/assets/images/mobile_store_one.png" alt=""></a>
                                         </li>
                                         <li>
-                                            <a href="#" target="_blank"><img src="<?=base_url()?>template/assets/images/mobile_store_two.png" alt=""></a>
+                                            <a href="<?= $play_store;?>" target="_blank"><img src="<?=base_url()?>template/assets/images/mobile_store_two.png" alt=""></a>
                                         </li>
                                     </ul>
                                 </ul>
                             </div>
                         </ul>
                     </div>
-            </div>
 
            
         </div>
