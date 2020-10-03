@@ -68,11 +68,18 @@
                                         <img src="<?= base_url().'uploads/extra_page_settings/'.$edit->image?>" style="height: 220px; width: 360px;" class='img-responsive'>
                                     </div>
                                     <div class="form-group">
+                                        <label>Page Short Description</label>
+                                        <textarea class="form-control" name="page_shortdesc">
+                                            <?=$edit->page_shortdesc?>
+                                        </textarea>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Page Description</label>
                                         <textarea class="form-control ckeditor" name="page_description">
                                             <?=$edit->page_description?>
                                         </textarea>
                                     </div>
+
                                     <div class="form-group">
                                         <label></label>
                                         <input type="submit" class="btn btn-primary btn-block" value="Update">
@@ -100,6 +107,11 @@
                                     <div class="form-group">
                                         <label>Image</label>
                                         <input type="file" name="image" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Page Short Description</label>
+                                        <textarea class="form-control" name="page_shortdesc">
+                                        </textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Page Description</label>
@@ -143,8 +155,7 @@
                                             <td><?= ++$i;?></td>
                                             <td><?= $s->page_name; ?></td>
                                             <td><?= $s->page_title ;?></td>
-                                            <!-- <td><?= substr($s->page_description, 0, 100) ;?></td> -->
-                                            <td><?php $arr = explode("\n", $s->page_description) ; echo $arr[0];?></td>
+                                            <td><?= $s->page_shortdesc ;?></td>
                                             <td><a href="<?=base_url().'Admin/extra_page_settings/edit/'.$s->page_id?>" style="color:blue">Edit</a> </td>
                                         </tr>
                                         <?php } ?>

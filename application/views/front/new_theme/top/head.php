@@ -1,9 +1,5 @@
     <title><?=$this->db->get_where('general_settings', array('general_settings_id' => 1))->row()->value?> </title>
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Qwigley&display=swap" rel="stylesheet">
+    <?php include_once 'font.php'; ?>
      <?php
         $favicon = $this->db->get_where('frontend_settings', array('type' => 'favicon'))->row()->value;
         $favicon = json_decode($favicon, true);
@@ -18,29 +14,35 @@
     <?php
         }
     ?>
-     <link rel="stylesheet" href="<?=base_url()?>template/assets/css/bootstrap/css/bootstrap.min7b30.css?v=4" media="screen" type="text/css" />
-     <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/owl.carousel.css" type="text/css" />
-     <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/fonts/stylesheet.css" type="text/css" />
-     <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/style4c33.css?v=32" type="text/css" />
-     <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/slick.css" type="text/css" />
-     <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/style.css" type="text/css" />
-     <link rel="stylesheet" href="<?=base_url()?>template/assets/css/responsive.css" type="text/css" />
+    <link rel="stylesheet" href="<?=base_url()?>template/assets/css/bootstrap/css/bootstrap.min7b30.css?v=4" media="screen" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/owl.carousel.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/fonts/stylesheet.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/style4c33.css?v=32" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/slick.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="<?=base_url()?>template/assets/css/responsive.css" type="text/css" />
     <link rel="stylesheet" href="<?=base_url()?>template/assets/css/counselling/responsive.css" type="text/css" />
-     <link rel="stylesheet" href="<?=base_url()?>template/assets/maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-     <link rel="stylesheet" href="<?=base_url()?>template/assets/css/jquery.mCustomScrollbar.min.css" type="text/css" />
-     <!--      Fotorama from CDNJS, 19 KB    -->
-     <link rel="stylesheet" href="<?=base_url()?>template/assets/css/fotorama/fotorama.css" type="text/css" />
-     <!-- script link -->
-     <script src="<?=base_url()?>template/assets/js/jquery/1.9.1/jquery.min.js"></script>
-     <script src="<?=base_url()?>template/assets/js/more.js"></script>
+    <link rel="stylesheet" href="<?=base_url()?>template/assets/maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>template/assets/css/jquery.mCustomScrollbar.min.css" type="text/css" />
+    
+    <!--common css linkup-->
+    <link rel="stylesheet" href="<?=base_url()?>template/assets/css/common.css">
+    
+    <!--common css linkup-->
 
-     <!-- owl.carousel js -->
-     <script src="<?=base_url()?>template/assets/js/owl.carousel.min.js"></script>
-     <script src="<?=base_url()?>template/assets/js/angular.min.js"></script>
-     <!--  slick slider   -->
-     <script src="<?=base_url()?>template/assets/js/slick.min.js"></script>
+    <!--      Fotorama from CDNJS, 19 KB    -->
+    <link rel="stylesheet" href="<?=base_url()?>template/assets/css/fotorama/fotorama.css" type="text/css" />
+    <!-- script link -->
+    <script src="<?=base_url()?>template/assets/js/jquery/1.9.1/jquery.min.js"></script>
+    <script src="<?=base_url()?>template/assets/js/more.js"></script>
 
-     <script src="<?=base_url()?>template/assets/js/angular-sanitize.js"></script>
+    <!-- owl.carousel js -->
+    <script src="<?=base_url()?>template/assets/js/owl.carousel.min.js"></script>
+    <script src="<?=base_url()?>template/assets/js/angular.min.js"></script>
+    <!--  slick slider   -->
+    <script src="<?=base_url()?>template/assets/js/slick.min.js"></script>
+
+    <script src="<?=base_url()?>template/assets/js/angular-sanitize.js"></script>
 
 
      <script>
@@ -148,6 +150,9 @@
         .read-more a:hover {
             background: #4f46ff;
             color: #ffffff;
+        }
+        .cover_title {
+            margin-top: 30px;
         }
 </style>
 

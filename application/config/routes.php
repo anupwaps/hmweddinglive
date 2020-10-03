@@ -53,3 +53,4 @@ $route['default_controller'] = 'home';
 $route['404_override'] = 'my404';
 $route['translate_uri_dashes'] = FALSE;
 $route['sitemap\.xml'] = "Sitemap/index";
+$route['stories/(:num)'] = 'home/stories/$1';

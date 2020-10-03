@@ -217,11 +217,26 @@ background-color: #0b5a7b;
         border: 1px solid #0b5a7b;
     }
     
-/*  FAQ part start  */
+/*  happy story part start  */
+    
+    #header_part h2{
+        font-size: 30px !important;
+    }
+    #main_body h2{
+        font-size: 18px !important;
+    }
+    #main_body p{
+        font-size: 14px !important;
+        padding: 0px !important;
+        padding-bottom: 20px !important;
+    }
+    #main_body img{
+        margin-bottom: 20px;
+    }
     
     
     
-/*  FAQ part ends  */
+/*  happy story part ends  */
     
     
 

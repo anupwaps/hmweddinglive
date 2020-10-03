@@ -13,7 +13,7 @@
 
 <?php include_once 'modal.php'; ?>
 
-
+<?php include_once 'modal2.php'; ?>
      <style type="text/css">
          .hiring {
              animation: MoveUpDown 1s linear infinite;

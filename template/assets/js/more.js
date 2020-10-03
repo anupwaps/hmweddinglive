@@ -1,6 +1,6 @@
 $('ul.expandible').each(function(){
     var $ul = $(this),
-        $lis = $ul.find('li:gt(4)'),
+        $lis = $ul.find('li:gt(3)'),
         isExpanded = $ul.hasClass('expanded');
     $lis[isExpanded ? 'show' : 'hide']();
     

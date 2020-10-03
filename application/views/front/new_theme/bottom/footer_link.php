@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-6 col">
                     <h4>Our Information</h4>
                     <ul class="list">
                         <li><a href="#"><i class="fa fa-check"></i> Customer Reviews</a></li>
@@ -14,32 +14,28 @@
                     </ul>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-6 col">
                     <h4>Company</h4>
                     <ul class="list expandible">
 
-                        <li><a href="#"><i class="fa fa-check"></i> About Us</a></li>
+                        <li><a href="<?=base_url()?>home/about_us"  target="_blank"><i class="fa fa-check"></i> About Us</a></li>
                         <li><a href="#"><i class="fa fa-check"></i> Success Stories</a></li>
                         <li><a href="#" target="_blank"><i class="fa fa-check"></i> Blogs </a></li>
                         <li><a href="#" target="_blank"><i class="fa fa-check"></i> Media &amp; PR </a></li>
                         <li><a href="#" target="_blank"><i class="fa fa-check"></i> Careers </a></li>
                         <li><a href="#" target="_blank"><i class="fa fa-check"></i> Home </a></li>
                         <li><a href="#" target="_blank"><i class="fa fa-check"></i> Reviews </a></li>
-                        <li><a href="#" target="_blank"><i class="fa fa-check"></i> International </a></li>
-                        <li><a href="#" target="_blank"><i class="fa fa-check"></i> HM Wedding World Wide </a></li>
+                        <li><a href="#" target="_blank"><i class="fa fa-check"></i> HM Wedding International </a></li>
                     </ul>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-6 col">
                     <h4>Help Center &amp; Support</h4>
                     <ul class="list expandible">
                         <li><a href="#"><i class="fa fa-check"></i> Live Support</a></li>
                         <li><a href="<?=base_url()?>home/contact_us"><i class="fa fa-check"></i> Contact us</a></li>
-                        <li><a href="#"><i class="fa fa-check"></i> Member Login</a></li>
-                        <li><a href="#"><i class="fa fa-check"></i> Sign Up</a></li>
                         <li><a href="#"><i class="fa fa-check"></i>Payment Option</a></li>
                         <li><a href="#"><i class="fa fa-check"></i>Payment Search</a></li>
-                        <li><a href="#"><i class="fa fa-check"></i> Customer Support</a></li>
                         <li><a href="#"><i class="fa fa-check"></i> Feedback/Quaries</a></li>
                         <li><a href="#"><i class="fa fa-check"></i> Quick Staff Guide</a></li>
                         <li><a href="#"><i class="fa fa-check"></i> Tutorials</a></li>
@@ -50,7 +46,7 @@
                     </ul>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-6 col">
                     <h4>Legal &amp; Policies</h4>
                     <ul class="list expandible">
                         <li><a href="<?=base_url()?>home/privacy_policy"><i class="fa fa-check"></i> Privacy Policy</a></li>
@@ -60,14 +56,14 @@
                         <li><a href="#"><i class="fa fa-check"></i> Cookie Policy</a></li>
                         <li><a href="#"><i class="fa fa-check"></i> Refund Policy</a></li>
                         <li><a href="#"><i class="fa fa-check"></i> Privacy Features</a></li>
-                        <li><a href="#"><i class="fa fa-check"></i> Report Abouse</a></li>
+                        <li><a href="#"><i class="fa fa-check"></i> Report Abuse</a></li>
                         <li><a href="#"><i class="fa fa-check"></i> Fraud Alert</a></li>
                         <li><a href="#"><i class="fa fa-check"></i> End User Agreement</a></li>
 
                     </ul>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-6 col">
                     <h4>My Account</h4>
 
                     <ul class="list expandible">
@@ -80,7 +76,7 @@
                     </ul>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-6 col">
                         <h4>Useful Links</h4>
                         <ul class="list expandible">
                             <li><a href="#"><i class="fa fa-check"></i>Terms of Service</a></li>
@@ -92,7 +88,7 @@
 
                     </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-6 col">
                         <h4>More</h4>
                         <ul class="list">
                             <li><a href="#"><i class="fa fa-check"></i> VIP Weddings</a></li>
@@ -114,7 +110,7 @@
                         </ul>
                     </div>
 
-                <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-6 col">
                         <h4>Our Other Services</h4>
                         <ul class="list expandible">
                             <li><a href="#"><i class="fa fa-check"></i>HM Wedding Cinematography</a></li>

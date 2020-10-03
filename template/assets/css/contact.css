@@ -95,6 +95,7 @@
 .officeadd-section{
 /*    background: #23108d;*/
 }
+
 .officeadd-section h4:hover{
     background: #C0324D;
     -webkit-transition: all linear 0.3s;
@@ -139,13 +140,25 @@ box-shadow: 9px -12px 23px -9px rgba(0,0,0,0.75);
 box-shadow: 9px -12px 23px -9px rgba(0,0,0,0.75);
     
 }
-
+.gurgaonadd {
+    border-bottom: #cccccc solid 1px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.officeadd-section ul {
+    padding: 0px;
+    margin: 0px;
+}
 .officeadd-section ul li{
  color: #000;
 font-family: 'Hind', sans-serif;
 /*    font-family: 'Crimson Text', serif;*/
     font-weight: 500;
-  
+    padding: 0px;
+    margin: 0px;
+    font-size: 14px;
+    line-height: 22px;
+    list-style: none;
 }
 .officeadd-section ul li strong{
    font-family: 'Hind', sans-serif;
@@ -154,8 +167,13 @@ font-family: 'Hind', sans-serif;
 }
 
 .officeadd-section h4{
-      font-family: 'Roboto Slab', serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: 400;
+    font-size: 20px;
+    color: #fff;
+    background: #286090;
+    padding: 15px 20px;
+    margin: 0px;
 }
 
 
@@ -178,7 +196,9 @@ font-family: 'Hind', sans-serif;
 
 /*form part*/
 
-
+.padd-30 {
+    padding: 30px;
+}
 .content p{
     text-align: center;
     font-family: 'Roboto Slab', serif;
@@ -215,8 +235,14 @@ textarea.form-control{
 /*ofc location part*/
 
 .officeadd-section {
-    
-   color: #000;
+    background: #fff;
+    color: #444;
+    width: 100%;
+    box-shadow: 0px 0px 13px rgba(68, 68, 68, 0.15);
+    padding: 5px 0px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    text-align: center;
 }
 
 
@@ -337,25 +363,12 @@ box-shadow: 0px 0px 33px -6px rgba(0,255,235,1);
 }
 */
 
-/*
-show more
 
-.social-icons .fa.utube {
-    background: #f01010;
+.contact_us_form{
+    padding-bottom: 25px;
 }
-
-.social-icons .fa.chat {
-    background: #09d34f;
+.button-holder {
+    padding: 20px 0 30px;
+    text-align: center;
+    float: right;
 }
-
-.social-icons .fa-yahoo {
-    background: #6001D2;
-}
-
-.social-icons .fa-link {
-    background: #3C599F;
-}
-
-.social-icons .fa-whatsapp {
-    background: #2AA91A;
-}*/

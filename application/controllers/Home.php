@@ -2364,27 +2364,69 @@ class Home extends CI_Controller {
 
     function stories($para1="",$para2="", $para3="")
     {
-        if ($para1=="") {
+        // if ($para1=="") {
+        //     $page_data['title'] = "Happy Stories || ".$this->system_title;
+        //     $page_data['top'] = "stories.php";
+        //     $page_data['page'] = "stories";
+        //     $page_data['bottom'] = "stories.php";
+        //     $page_data['all_happy_stories'] = $this->db->get_where("happy_story", array("approval_status" => 1))->result();
+        //     $this->load->view('front/index', $page_data);
+        // }
+        if ($para1=="" || is_numeric($para1)) {
             $page_data['title'] = "Happy Stories || ".$this->system_title;
             $page_data['top'] = "stories.php";
-            $page_data['page'] = "stories";
+            $page_data['page'] = "stories/stories.php";
             $page_data['bottom'] = "stories.php";
             $page_data['all_happy_stories'] = $this->db->get_where("happy_story", array("approval_status" => 1))->result();
-            $this->load->view('front/index', $page_data);
+            // $this->load->library('Ajax_pagination');
+
+            // pagination
+            // $data['vpopular'] = $this->db->get_where("happy_story", array("approval_status" => 1))->result();
+            // $total_row=count($data['video']);
+            $config = array();
+            $config["base_url"] = base_url().'home/stories';
+            $config['total_rows'] = $this->db->get_where('happy_story', array('approval_status' => 1))->num_rows();
+
+            $config["per_page"] = 3;
+            $config["uri_segment"] = 3;
+            $choice = $config["total_rows"] / $config["per_page"];
+            $config["num_links"] = floor($choice);
+
+            $config['cur_tag_open'] = '<a class="active">';
+            $config['cur_tag_close'] = '</a>';
+            $this->pagination->initialize($config);
+
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $page_data['get_all_stories'] = $this->db->get_where('happy_story', array('approval_status' => 1), $config['per_page'], $page)->result();
+            $page_data["links"]= $this->pagination->create_links();
+            $this->load->view('front/indexextra', $page_data);
         }
         elseif ($para1=="story_detail") {
             $page_data['title'] = "Story Detail || ".$this->system_title;
             $page_data['top'] = "story_detail.php";
-            $page_data['page'] = "story_detail";
+            $page_data['page'] = "stories/story_detail.php";
             $page_data['bottom'] = "story_detail.php";
             $page_data['get_story'] = $this->db->get_where("happy_story", array("happy_story_id" => $para2, "approval_status" => 1))->result();
             if ($page_data['get_story']) {
-                $this->load->view('front/index', $page_data);
+                $this->load->view('front/indexextra', $page_data);
             }
             else {
                 redirect(base_url().'home/stories', 'refresh');
             }
         }
+        // elseif ($para1=="story_detail") {
+        //     $page_data['title'] = "Story Detail || ".$this->system_title;
+        //     $page_data['top'] = "story_detail.php";
+        //     $page_data['page'] = "story_detail";
+        //     $page_data['bottom'] = "story_detail.php";
+        //     $page_data['get_story'] = $this->db->get_where("happy_story", array("happy_story_id" => $para2, "approval_status" => 1))->result();
+        //     if ($page_data['get_story']) {
+        //         $this->load->view('front/index', $page_data);
+        //     }
+        //     else {
+        //         redirect(base_url().'home/stories', 'refresh');
+        //     }
+        // }
         elseif ($para1=="add") {
             $member_id = $this->session->userdata('member_id');
             $data['title'] = $this->input->post('title');
@@ -2625,6 +2667,8 @@ class Home extends CI_Controller {
         $page_data['count'] = $config['total_rows'];
 
         $this->load->view('front/stories/stories', $page_data);
+        // $page_data['j'] = 'hello';
+        // $this->load->view('front/new_theme/stories/stories', $page_data);
     }
 
     function ajax_my_interest_list($para1="",$para2="")
@@ -2938,7 +2982,7 @@ class Home extends CI_Controller {
         $this->cache_setup_info($connector,$selector,$select,$type,'post');
     }
 
-    function contact_us($para1="", $para2="")
+    function contact_us2($para1="", $para2="")
     {
         if ($this->Crud_model->get_settings_value('third_party_settings', 'captcha_status', 'value') == 'ok') {
             $this->load->library('recaptcha');
@@ -3383,7 +3427,7 @@ class Home extends CI_Controller {
         }
     }
 
-    function faq()
+    function faq2()
     {
         $page_data['title'] = "Contact Us || ".$this->system_title;
         $page_data['top'] = "faq.php";
@@ -3405,7 +3449,7 @@ class Home extends CI_Controller {
         $this->load->view('front/index', $page_data);
     }
 
-    function privacy_policy()
+    function privacy_policy2()
     {
         $page_data['title'] = "Contact Us || ".$this->system_title;
         $page_data['top'] = "privacy_policy.php";
@@ -4210,16 +4254,110 @@ class Home extends CI_Controller {
 
                     echo $email_body;
     }
-     function about_us()
+    function about_us()
     {
-        //echo "hii";exit();
-       
-            $page_data['title'] = "About Us || ".$this->system_title;
-            $page_data['top'] = "about_us.php";
-            $page_data['page'] = "about_us";
-            $page_data['bottom'] = "about_us.php";
-           
-            $this->load->view('front/extra_page');
+        $page_data['top'] = "extra_topbar.php";
+        $page_data['page'] = "extra_page/about_us.php";
+        $page_data['about_us'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'about_us'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function faq()
+    {
+        $page_data['top'] = "extra_topbar.php";
+        $page_data['page'] = "extra_page/faq.php";
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    
+    function contact_us($para1="", $para2="")
+    {
+        if ($this->Crud_model->get_settings_value('third_party_settings', 'captcha_status', 'value') == 'ok') {
+            $this->load->library('recaptcha');
+        }
+        if ($para1=="") {
+            $page_data['title'] = "Contact Us || ".$this->system_title;
+            $page_data['top'] = "contact_us.php";
+            $page_data['page'] = "extra_page/contact_us.php";
+            $page_data['bottom'] = "contact_us.php";
+            if ($this->session->flashdata('alert') == "success") {
+                $page_data['success_alert'] = translate("your_message_has_been_successfully_sent!");
+            }
+            if ($this->Crud_model->get_settings_value('third_party_settings', 'captcha_status', 'value') == 'ok') {
+                $page_data['recaptcha_html'] = $this->recaptcha->render();
+            }
+            $this->load->view('front/indexextra', $page_data);
+        }
+        if ($para1 == 'send') {
+            $safe = 'yes';
+            $char = '';
+            foreach ($_POST as $row) {
+                if (preg_match('/[\'^":()}{#~><>|=+¬]/', $row, $match)) {
+                    $safe = 'no';
+                    $char = $match[0];
+                }
+            }
+            $this->form_validation->set_rules('name', 'Name', 'required');
+            $this->form_validation->set_rules('subject', 'Subject', 'required');
+            $this->form_validation->set_rules('message', 'Message', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required');
+
+            if ($this->form_validation->run() == FALSE) {
+                // echo validation_errors();
+            } else {
+                if ($safe == 'yes') {
+                    if ($this->Crud_model->get_settings_value('third_party_settings', 'captcha_status', 'value') == 'ok') {
+                        $captcha_answer = $this->input->post('g-recaptcha-response');
+                        $response = $this->recaptcha->verifyResponse($captcha_answer);
+                        if ($response['success']) {
+                            $data['name'] = $this->input->post('name', true);
+                            $data['subject'] = $this->input->post('subject');
+                            $data['email'] = $this->input->post('email');
+                            $data['message'] = $this->security->xss_clean(($this->input->post('message')));
+                            $data['view'] = 'no';
+                            $data['timestamp'] = time();
+                            $this->db->insert('contact_message', $data);
+                            echo 'sent';
+                        } else {
+                            $page_data['title'] = "Contact Us || ".$this->system_title;
+                            $page_data['top'] = "contact_us.php";
+                            $page_data['page'] = "extra_page/contact_us.php";
+                            $page_data['bottom'] = "contact_us.php";
+
+                            if ($this->Crud_model->get_settings_value('third_party_settings', 'captcha_status', 'value') == 'ok') {
+                                $page_data['recaptcha_html'] = $this->recaptcha->render();
+                            }
+                            $page_data['captcha_incorrect'] = TRUE;
+                            $page_data['form_contents'] = $this->input->post();
+                            $this->load->view('front/indexextra', $page_data);
+                        }
+                    } else {
+                        $data['name'] = $this->input->post('name', true);
+                        $data['subject'] = $this->input->post('subject');
+                        $data['email'] = $this->input->post('email');
+                        $data['message'] = $this->security->xss_clean(($this->input->post('message')));
+                        $data['view'] = 'no';
+                        $data['timestamp'] = time();
+                        $this->db->insert('contact_message', $data);
+
+                        $this->session->set_flashdata('success', "Successfully Added"); 
+
+                        redirect(base_url() . 'home/contact_us2', 'refresh');
+
+                    }
+                } else {
+                    echo 'Disallowed charecter : " ' . $char . ' " in the POST';
+                }
+            }
+        }
+    }
+    
+    function privacy_policy()
+    {
+        $page_data['top'] = "extra_topbar.php";
+        $page_data['page'] = "extra_page/privacy_policy.php";
+        $page_data['privacy_policy'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'privacy_policy'));
+        $this->load->view('front/indexextra', $page_data);
     
     }
 
