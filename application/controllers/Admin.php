@@ -4848,6 +4848,70 @@ class Admin extends CI_Controller {
 			}
 		}
 	}
+	function media_pr_settings($para1="", $para2="")
+	{
+		if ($this->admin_permission() == FALSE) {
+        	redirect(base_url().'admin/login', 'refresh');
+		}
+		else {
+			if ($para1=="") {
+				$page_data['title'] = "Admin || ".$this->system_title;
+				$page_data['top'] = "theme_color_settings/index.php";
+				$page_data['folder'] = "extra_settings";
+				$page_data['file'] = "media_pr_settings.php";
+				$page_data['bottom'] = "theme_color_settings/index.php";
+				$page_data['page_name'] = "media_pr_settings";
+				if ($this->session->flashdata('alert') == "edit" || "add") {
+					$page_data['success_alert'] = translate("you_have_successfully_updated_your_profile!");
+				}
+				elseif ($this->session->flashdata('alert') == "failed_edit") {
+					$page_data['danger_alert'] = translate("failed_to_updated_your_profile!");
+				}
+				$page_data['gallery'] = $this->Rest_model->SelectDataOrder('media_pr_settings', '*', '','media_id','desc');
+				$this->load->view('back/index', $page_data);
+			}
+			elseif ($para1=="add") {
+				$data = $this->input->post();
+				$config['upload_path'] = './uploads/media_pr_settings/';
+				$config['allowed_types'] = 'gif|jpg|png|mp4|jpeg';
+				$config['encrypt_name'] = TRUE;
+				$config['max_size'] = 0;
+				$config['max_width'] = 0;
+				$config['max_height'] = 0;
+				$this->load->library('upload', $config);
+
+
+				$this->load->library('image_lib');
+				$config_1['image_library'] = 'gd2';
+				$config_1['create_thumb'] = FALSE;
+				$config_1['maintain_ratio'] = FALSE;
+				$config_1['width']         = 1600;
+				$config_1['height']       = 1064;
+
+				if (!$this->upload->do_upload('image')) {
+					$error = array('error' => $this->upload->display_errors());
+				} else {
+					$data2 = array('upload_data' => $this->upload->data());
+					$data['image'] = $data2['upload_data']['file_name'];
+					$config_1['source_image'] = 'uploads/media_pr_settings/'.$data2['upload_data']['file_name'];
+					$this->image_lib->initialize($config_1); 
+					$this->image_lib->resize();
+				}
+				$this->Rest_model->SaveData('media_pr_settings', $data);
+				recache();
+				$this->session->set_flashdata('success', "Successfully Added"); 
+				redirect(base_url().'admin/media_pr_settings', 'refresh');
+			}
+			elseif ($para1=="delete" && $para2) {
+				$qq=$this->Rest_model->SelectData_1('media_pr_settings','*',array('media_id'=>$para2));
+					if($qq->image!=''){
+					unlink('uploads/media_pr_settings/'.$qq->image);}
+				$this->Rest_model->DeleteData('media_pr_settings', array('media_id'=>$para2));
+				$this->session->set_flashdata('error', "Successfully Deleted"); 
+				redirect(base_url().'admin/media_pr_settings', 'refresh');
+			}
+		}
+	}
 	function follow_connect($para1="", $para2="")
 	{
 		if ($this->admin_permission() == FALSE) {
@@ -4963,6 +5027,254 @@ class Admin extends CI_Controller {
 				recache();
 				$this->session->set_flashdata('success', "Successfully Added"); 
 				redirect(base_url().'admin/follow_connect', 'refresh');
+			}
+		}
+	}
+	function blog_cat($para1="", $para2="")
+	{
+		if ($this->admin_permission() == FALSE) {
+        	redirect(base_url().'admin/login', 'refresh');
+		}
+		else {
+			if ($para1=="") {
+				$page_data['title'] = "Admin || ".$this->system_title;
+				$page_data['top'] = "theme_color_settings/index.php";
+				$page_data['folder'] = "extra_settings";
+				$page_data['file'] = "blog_cat.php";
+				$page_data['bottom'] = "theme_color_settings/index.php";
+				$page_data['page_name'] = "blog_cat";
+				if ($this->session->flashdata('alert') == "edit" || "add") {
+					$page_data['success_alert'] = translate("you_have_successfully_updated_your_profile!");
+				}
+				elseif ($this->session->flashdata('alert') == "failed_edit") {
+					$page_data['danger_alert'] = translate("failed_to_updated_your_profile!");
+				}
+				$page_data['follow'] = $this->Rest_model->SelectDataOrder('blog_cat', '*', '','blog_cat_id','asc');
+				$this->load->view('back/index', $page_data);
+			}
+			elseif ($para1=="add") {
+				$data = $this->input->post();
+				$config['upload_path'] = './uploads/blog_cat/';
+				$config['allowed_types'] = 'gif|jpg|png|mp4|jpeg';
+				$config['encrypt_name'] = TRUE;
+				$config['max_size'] = 0;
+				$config['max_width'] = 0;
+				$config['max_height'] = 0;
+				$this->load->library('upload', $config);
+
+
+				$this->load->library('image_lib');
+				$config_1['image_library'] = 'gd2';
+				$config_1['create_thumb'] = FALSE;
+				$config_1['maintain_ratio'] = FALSE;
+				$config_1['width']         = 330;
+				$config_1['height']       = 186;
+
+				if (!$this->upload->do_upload('image')) {
+					$error = array('error' => $this->upload->display_errors());
+				} else {
+					$data2 = array('upload_data' => $this->upload->data());
+					$data['image'] = $data2['upload_data']['file_name'];
+					$config_1['source_image'] = 'uploads/blog_cat/'.$data2['upload_data']['file_name'];
+					$this->image_lib->initialize($config_1); 
+					$this->image_lib->resize();
+				}
+				$this->Rest_model->SaveData('blog_cat', $data);
+				recache();
+				$this->session->set_flashdata('success', "Successfully Added"); 
+				redirect(base_url().'admin/blog_cat', 'refresh');
+			}
+			elseif ($para1=="delete" && $para2) {
+				$qq=$this->Rest_model->SelectData_1('blog_cat','*',array('blog_cat_id'=>$para2));
+					if($qq->image!=''){
+					unlink('uploads/blog_cat/'.$qq->image);}
+				$this->Rest_model->DeleteData('blog_cat', array('blog_cat_id'=>$para2));
+				$this->session->set_flashdata('error', "Successfully Deleted"); 
+				redirect(base_url().'admin/blog_cat', 'refresh');
+			}
+			elseif ($para1=="edit" && $para2) {
+				$page_data['title'] = "Admin || ".$this->system_title;
+				$page_data['top'] = "theme_color_settings/index.php";
+				$page_data['folder'] = "extra_settings";
+				$page_data['file'] = "blog_cat.php";
+				$page_data['bottom'] = "theme_color_settings/index.php";
+				$page_data['page_name'] = "blog_cat";
+				if ($this->session->flashdata('alert') == "edit" || "add") {
+					$page_data['success_alert'] = translate("you_have_successfully_updated_your_profile!");
+				}
+				elseif ($this->session->flashdata('alert') == "failed_edit") {
+					$page_data['danger_alert'] = translate("failed_to_updated_your_profile!");
+				}
+				$page_data['edit'] = $this->Rest_model->SelectData_1('blog_cat', '*', array('blog_cat_id'=>$para2));
+				$page_data['follow'] = $this->Rest_model->SelectDataOrder('blog_cat', '*', '','blog_cat_id','asc');
+				$this->load->view('back/index', $page_data);
+			}
+			elseif ($para1=="update") {
+				$id = $this->input->post('blog_cat_id');
+				$data = $this->input->post();
+				$config['upload_path'] = './uploads/blog_cat/';
+				$config['allowed_types'] = 'gif|jpg|png|mp4|jpeg';
+				$config['encrypt_name'] = TRUE;
+				$config['max_size'] = 0;
+				$config['max_width'] = 0;
+				$config['max_height'] = 0;
+				$this->load->library('upload', $config);
+
+
+				$this->load->library('image_lib');
+				$config_1['image_library'] = 'gd2';
+				$config_1['create_thumb'] = FALSE;
+				$config_1['maintain_ratio'] = FALSE;
+				$config_1['width']         = 330;
+				$config_1['height']       = 186;
+
+				if (!$this->upload->do_upload('image')) {
+					$error = array('error' => $this->upload->display_errors());
+				} else {
+					$data2 = array('upload_data' => $this->upload->data());
+					$data['image'] = $data2['upload_data']['file_name'];
+					$config_1['source_image'] = 'uploads/blog_cat/'.$data2['upload_data']['file_name'];
+					$this->image_lib->initialize($config_1); 
+					$this->image_lib->resize();
+					$qq=$this->Rest_model->SelectData_1('blog_cat','*',array('blog_cat_id'=>$id));
+					if($qq->image!=''){
+						unlink('uploads/blog_cat/'.$qq->image);
+					}
+				}
+				$this->Rest_model->UpdateData('blog_cat', $data, array('blog_cat_id'=>$id));
+				recache();
+				$this->session->set_flashdata('success', "Successfully Added"); 
+				redirect(base_url().'admin/blog_cat', 'refresh');
+			}
+		}
+	}
+	function blog($para1="", $para2="")
+	{
+		if ($this->admin_permission() == FALSE) {
+        	redirect(base_url().'admin/login', 'refresh');
+		}
+		else {
+			$admin_id = $this->session->userdata('admin_id');
+			$ad = $this->Rest_model->SelectData_1('admin', '*', array('admin_id'=>$admin_id));
+			// var_dump($ad->name);
+			if ($para1=="") {
+				$page_data['title'] = "Admin || ".$this->system_title;
+				$page_data['top'] = "theme_color_settings/index.php";
+				$page_data['folder'] = "extra_settings";
+				$page_data['file'] = "blog.php";
+				$page_data['bottom'] = "theme_color_settings/index.php";
+				$page_data['page_name'] = "blog";
+				if ($this->session->flashdata('alert') == "edit" || "add") {
+					$page_data['success_alert'] = translate("you_have_successfully_updated_your_profile!");
+				}
+				elseif ($this->session->flashdata('alert') == "failed_edit") {
+					$page_data['danger_alert'] = translate("failed_to_updated_your_profile!");
+				}
+				$page_data['follow'] = $this->Rest_model->SelectDataOrder('blog', '*', '','blog_id','desc');
+				$page_data['blog_cat'] = $this->Rest_model->SelectDataOrder('blog_cat', '*', '','blog_cat_id','desc');
+				$this->load->view('back/index', $page_data);
+			}
+			elseif ($para1=="add") {
+				$data = $this->input->post();
+				$data['cat_id'] = (int)$this->input->post('cat_id');
+				$data['posted_by'] = $ad->name;
+				$config['upload_path'] = './uploads/blog/';
+				$config['allowed_types'] = 'gif|jpg|png|mp4|jpeg';
+				$config['encrypt_name'] = TRUE;
+				$config['max_size'] = 0;
+				$config['max_width'] = 0;
+				$config['max_height'] = 0;
+				$this->load->library('upload', $config);
+
+
+				$this->load->library('image_lib');
+				$config_1['image_library'] = 'gd2';
+				$config_1['create_thumb'] = FALSE;
+				$config_1['maintain_ratio'] = FALSE;
+				$config_1['width']         = 643;
+				$config_1['height']       = 362;
+
+				if (!$this->upload->do_upload('image')) {
+					$error = array('error' => $this->upload->display_errors());
+				} else {
+					$data2 = array('upload_data' => $this->upload->data());
+					$data['image'] = $data2['upload_data']['file_name'];
+					$config_1['source_image'] = 'uploads/blog/'.$data2['upload_data']['file_name'];
+					$this->image_lib->initialize($config_1); 
+					$this->image_lib->resize();
+				}
+				// var_dump($data);
+				$this->Rest_model->SaveData('blog', $data);
+				recache();
+				$this->session->set_flashdata('success', "Successfully Added"); 
+				
+				// return ($this->db->affected_rows() != 1) ? false : true;
+				redirect(base_url().'admin/blog', 'refresh');
+			}
+			elseif ($para1=="delete" && $para2) {
+				$qq=$this->Rest_model->SelectData_1('blog','*',array('blog_id'=>$para2));
+					if($qq->image!=''){
+					unlink('uploads/blog/'.$qq->image);}
+				$this->Rest_model->DeleteData('blog', array('blog_id'=>$para2));
+				$this->session->set_flashdata('error', "Successfully Deleted"); 
+				redirect(base_url().'admin/blog', 'refresh');
+			}
+			elseif ($para1=="edit" && $para2) {
+				$page_data['title'] = "Admin || ".$this->system_title;
+				$page_data['top'] = "theme_color_settings/index.php";
+				$page_data['folder'] = "extra_settings";
+				$page_data['file'] = "blog.php";
+				$page_data['bottom'] = "theme_color_settings/index.php";
+				$page_data['page_name'] = "blog";
+				if ($this->session->flashdata('alert') == "edit" || "add") {
+					$page_data['success_alert'] = translate("you_have_successfully_updated_your_profile!");
+				}
+				elseif ($this->session->flashdata('alert') == "failed_edit") {
+					$page_data['danger_alert'] = translate("failed_to_updated_your_profile!");
+				}
+				$page_data['edit'] = $this->Rest_model->SelectData_1('blog', '*', array('blog_id'=>$para2));
+				$page_data['follow'] = $this->Rest_model->SelectDataOrder('blog', '*', '','blog_id','asc');
+				$page_data['blog_cat'] = $this->Rest_model->SelectDataOrder('blog_cat', '*', '','blog_cat_id','desc');
+				$this->load->view('back/index', $page_data);
+			}
+			elseif ($para1=="update") {
+				$id = $this->input->post('blog_id');
+				$data = $this->input->post();
+				// var_dump($data);
+				$data['posted_by'] = $ad->name;
+				$config['upload_path'] = './uploads/blog/';
+				$config['allowed_types'] = 'gif|jpg|png|mp4|jpeg';
+				$config['encrypt_name'] = TRUE;
+				$config['max_size'] = 0;
+				$config['max_width'] = 0;
+				$config['max_height'] = 0;
+				$this->load->library('upload', $config);
+
+
+				$this->load->library('image_lib');
+				$config_1['image_library'] = 'gd2';
+				$config_1['create_thumb'] = FALSE;
+				$config_1['maintain_ratio'] = FALSE;
+				$config_1['width']         = 643;
+				$config_1['height']       = 362;
+
+				if (!$this->upload->do_upload('image')) {
+					$error = array('error' => $this->upload->display_errors());
+				} else {
+					$data2 = array('upload_data' => $this->upload->data());
+					$data['image'] = $data2['upload_data']['file_name'];
+					$config_1['source_image'] = 'uploads/blog/'.$data2['upload_data']['file_name'];
+					$this->image_lib->initialize($config_1); 
+					$this->image_lib->resize();
+					$qq=$this->Rest_model->SelectData_1('blog','*',array('blog_id'=>$id));
+					if($qq->image!=''){
+						unlink('uploads/blog/'.$qq->image);
+					}
+				}
+				$this->Rest_model->UpdateData('blog', $data, array('blog_id'=>$id));
+				recache();
+				$this->session->set_flashdata('success', "Successfully Added"); 
+				redirect(base_url().'admin/blog', 'refresh');
 			}
 		}
 	}
@@ -5119,6 +5431,67 @@ class Admin extends CI_Controller {
 				recache();
 				$this->session->set_flashdata('success', "Successfully Added"); 
 				redirect(base_url().'admin/extra_page_settings', 'refresh');
+			}
+		}
+	}
+	function career($para1="", $para2="")
+	{
+		if ($this->admin_permission() == FALSE) {
+        	redirect(base_url().'admin/login', 'refresh');
+		}
+		else {
+			if ($para1=="") {
+				$page_data['title'] = "Admin || ".$this->system_title;
+				$page_data['top'] = "theme_color_settings/index.php";
+				$page_data['folder'] = "extra_settings";
+				$page_data['file'] = "career.php";
+				$page_data['bottom'] = "theme_color_settings/index.php";
+				$page_data['page_name'] = "career";
+				if ($this->session->flashdata('alert') == "edit" || "add") {
+					$page_data['success_alert'] = translate("you_have_successfully_updated_your_profile!");
+				}
+				elseif ($this->session->flashdata('alert') == "failed_edit") {
+					$page_data['danger_alert'] = translate("failed_to_updated_your_profile!");
+				}
+				$page_data['page_settings'] = $this->Rest_model->SelectDataOrder('career', '*', '','career_id','desc');
+				$this->load->view('back/index', $page_data);
+			}
+			elseif ($para1=="add") {
+				$data = $this->input->post();
+				$this->Rest_model->SaveData('career', $data);
+				recache();
+				$this->session->set_flashdata('success', "Successfully Added"); 
+				redirect(base_url().'admin/career', 'refresh');
+			}
+			elseif ($para1=="delete" && $para2) {
+				$this->Rest_model->DeleteData('career', array('career_id'=>$para2));
+				$this->session->set_flashdata('error', "Successfully Deleted"); 
+				redirect(base_url().'admin/career', 'refresh');
+			}
+			elseif ($para1=="edit" && $para2) {
+				$page_data['title'] = "Admin || ".$this->system_title;
+				$page_data['top'] = "theme_color_settings/index.php";
+				$page_data['folder'] = "extra_settings";
+				$page_data['file'] = "career.php";
+				$page_data['bottom'] = "theme_color_settings/index.php";
+				$page_data['page_name'] = "career";
+				if ($this->session->flashdata('alert') == "edit" || "add") {
+					$page_data['success_alert'] = translate("you_have_successfully_updated_your_profile!");
+				}
+				elseif ($this->session->flashdata('alert') == "failed_edit") {
+					$page_data['danger_alert'] = translate("failed_to_updated_your_profile!");
+				}
+				$page_data['edit'] = $this->Rest_model->SelectData_1('career', '*', array('career_id'=>$para2));
+				$page_data['page_settings'] = $this->Rest_model->SelectDataOrder('career', '*', '','career_id','desc');
+				$this->load->view('back/index', $page_data);
+			}
+			elseif ($para1=="update") {
+				$id = $this->input->post('career_id');
+				$data = $this->input->post();
+				$this->Rest_model->UpdateData('career', $data, array('career_id'=>$id));
+				recache();
+				$this->session->set_flashdata('success', "Successfully Added"); 
+				redirect(base_url().'admin/career', 'refresh');
 			}
 		}
 	}

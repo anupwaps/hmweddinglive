@@ -14,6 +14,8 @@
     <?php
         }
     ?>
+    <!-- <link rel="stylesheet" href="<?=base_url()?>template/assets/css/overridef15d.css?v=47" media="screen" type="text/css" /> -->
+    <link rel="stylesheet" href="<?=base_url()?>template/assets/css/custom2c06.css?v=116">
     <link rel="stylesheet" href="<?=base_url()?>template/assets/css/bootstrap/css/bootstrap.min7b30.css?v=4" media="screen" type="text/css" />
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/css/owl.carousel.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>template/assets/fonts/stylesheet.css" type="text/css" />

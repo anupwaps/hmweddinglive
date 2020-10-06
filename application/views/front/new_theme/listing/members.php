@@ -1,5 +1,5 @@
+
 <?php
-// echo $count;
 if (empty($get_all_members)) {
     ?>
         <div class='text-center pt-5 pb-5'><i class='fa fa-exclamation-triangle fa-5x'></i><h5><?=translate('no_result_found!')?></h5></div>
@@ -8,9 +8,47 @@ if (empty($get_all_members)) {
 foreach ($get_all_members as $member): ?>
     <?php
         $image = json_decode($member->profile_image, true);
+        // echo $image[0]['profile_image'];
     ?>
-    <div class="block block--style-3 list z-depth-1-top" id="block_<?=$member->member_id?>">
-        <div class="block-image">
+    <?php
+        $basic_info = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'basic_info');
+        $basic_info_data = json_decode($basic_info, true);
+
+        $education_and_career = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'education_and_career');
+        $education_and_career_data = json_decode($education_and_career, true);
+
+        $physical_attributes = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'physical_attributes');
+        $physical_attributes_data = json_decode($physical_attributes, true);
+
+        $spiritual_and_social_background = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'spiritual_and_social_background');
+        $spiritual_and_social_background_data = json_decode($spiritual_and_social_background, true);
+
+        $language = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'language');
+        $language_data = json_decode($language, true);
+
+        $present_address = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'present_address');
+        $present_address_data = json_decode($present_address, true);
+        $calculated_age = (date('Y') - date('Y', $member->date_of_birth));
+    ?>
+    <style>
+        .listing-image img {
+            width: 210px;
+            height: 216px;
+        }
+        .details {
+            margin-top: 0px;
+        }
+        .details h5 {
+            height: 50px;
+        }
+        a:hover {
+            cursor:pointer;
+        }
+    </style>
+<div class="col-lg-4 col-md- col-sm-4" >
+    <div class="officeadd-section">
+        <div class="row">
+            <div class="col-sm-12">
             <a onclick="return goto_profile(<?=$member->member_id?>)">
                     <?php
                     if (file_exists('uploads/profile_image/'.$image[0]['profile_image'])) {
@@ -21,98 +59,125 @@ foreach ($get_all_members as $member): ?>
                         $is_premium = $this->Crud_model->get_type_name_by_id('member', $this->session->userdata('member_id'), 'membership');
                         if($pic_privacy_data[0]['profile_pic_show']=='only_me'){
                     ?>
-                        <div class="listing-image" style="background-image: url(<?=base_url()?>uploads/profile_image/default.jpg"></div>
+                        <div class="listing-image">
+                            <img src="<?=base_url()?>uploads/profile_image/default.jpg">
+                        </div>
                         <?php }elseif ($pic_privacy_data[0]['profile_pic_show']=='premium' and $is_premium==2) {
                         ?>
-                            <div class="listing-image" style="background-image: url(<?=base_url()?>uploads/profile_image/<?=$image[0]['profile_image']?>)"></div>
+                            <div class="listing-image">
+                                <img src="<?=base_url()?>uploads/profile_image/<?=$image[0]['profile_image']?>">
+                            </div>
                         <?php }elseif ($pic_privacy_data[0]['profile_pic_show']=='premium' and $is_premium==1) {
                         ?>
-                            <div class="listing-image" style="background-image: url(<?=base_url()?>uploads/profile_image/default.jpg"></div>
+                            <div class="listing-image" >
+                                <img src="<?=base_url()?>uploads/profile_image/default.jpg">
+                            </div>
                         <?php }elseif ($pic_privacy_data[0]['profile_pic_show']=='all') {
                         ?>
-                        <div class="listing-image" style="background-image: url(<?=base_url()?>uploads/profile_image/<?=$image[0]['profile_image']?>)"></div>
+                        <div class="listing-image">
+                            <img src="<?=base_url()?>uploads/profile_image/<?=$image[0]['profile_image']?>">
+                        </div>
                     <?php }else{ ?>
-                        <div class="listing-image" style="background-image: url(<?=base_url()?>uploads/profile_image/default.jpg"></div>
+                        <div class="listing-image">
+                            <img src="<?=base_url()?>uploads/profile_image/default.jpg">
+                        </div>
                     <?php }
                     }
                     else {
                     ?>
-                        <div class="listing-image" style="background-image: url(<?=base_url()?>uploads/profile_image/default.jpg"></div>
+                        <div class="listing-image">
+                            <img src="<?=base_url()?>uploads/profile_image/default.jpg">
+                        </div>
                     <?php
                     }
                     ?>
                 </a>
-        </div>
-        <?php
-            $basic_info = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'basic_info');
-            $basic_info_data = json_decode($basic_info, true);
-
-            $education_and_career = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'education_and_career');
-            $education_and_career_data = json_decode($education_and_career, true);
-
-            $physical_attributes = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'physical_attributes');
-            $physical_attributes_data = json_decode($physical_attributes, true);
-
-            $spiritual_and_social_background = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'spiritual_and_social_background');
-            $spiritual_and_social_background_data = json_decode($spiritual_and_social_background, true);
-
-            $language = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'language');
-            $language_data = json_decode($language, true);
-
-            $present_address = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'present_address');
-            $present_address_data = json_decode($present_address, true);
-            $calculated_age = (date('Y') - date('Y', $member->date_of_birth));
-        ?>
-        <div class="block-title-wrapper">
-            <?php if ($member->membership == 2): ?>
-                <a class="badge-corner badge-corner-red">
-                    <span style="-ms-transform: rotate(45deg);/* IE 9 */-webkit-transform: rotate(45deg);/* Chrome, Safari, Opera */transform: rotate(45deg);font-size: 10px;margin-left: -14px;">
-                        <?=translate('premium')?>
+                <!-- <div class="listing-img">
+                    <img src="<?=base_url()?>uploads/profile_image/<?=$image[0]['profile_image']?>">
+                </div> -->
+                <div class="details">
+                    
+                    <h4><a onclick="return goto_profile(<?=$member->member_id?>)"><?=$member->first_name." ".$member->last_name?></a></h4>
+                    <h5><?=$education_and_career_data[0]['occupation']?></h5>
+                    <style>
+                        #more {
+                            display: none;
+                        }
+                    </style>
+                    <span id="dots"></span><span id="more_<?=$member->member_id?>">
+                        <table class="table-striped table-bordered mb-2" style="font-size: 12px;">
+                            <tbody>
+                                <tr>
+                                    <td style="padding-left: 5px;" class="font-dark" height="30"><b>Member ID</b></td>
+                                    <td style="padding-left: 5px;" class="font-dark" height="30"><a onclick="return goto_profile(<?=$member->member_id?>)" class="c-base-1"><b>HM_<?=$member->member_profile_id?></b></a></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><b><?php echo translate('age')?></b></td>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><?=$calculated_age?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><b><?php echo translate('height')?></b></td>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><?=$member->height." ".translate('feet')?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><b><?php echo translate('religion')?></b></td>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><?=$this->Crud_model->get_type_name_by_id('religion', $spiritual_and_social_background_data[0]['religion']);?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 5px;" width="120" height="30"><b><?php echo translate('caste_/_sect')?></b></td>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><?=$this->db->get_where('caste', array('caste_id'=>$spiritual_and_social_background_data[0]['caste']))->row()->caste_name?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><b>Mother Tongue</b></td>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30">
+                                    <?=$this->Crud_model->get_type_name_by_id('language', $language_data[0]['mother_tongue']);?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 5px;" width="120" height="30"><b>Marital Status</b></td>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><?=$this->Crud_model->get_type_name_by_id('marital_status', $basic_info_data[0]['marital_status'])?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 5px;" class="font-dark" width="120" height="30"><b>Location</b></td>
+                                    <td style="padding-left: 5px;" class="font-dark" height="30"><?php if($present_address_data[0]['country']){echo $this->Crud_model->get_type_name_by_id('state', $present_address_data[0]['state']).', '.$this->Crud_model->get_type_name_by_id('country', $present_address_data[0]['country']);}?></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </span>
-                </a>
-            <?php endif ?>
-            <h3 class="heading heading-5 strong-500 <?php if($member->membership == 1){echo 'mt-4';} else {echo'mt-1';}?>">
-                <a onclick="return goto_profile(<?=$member->member_id?>)" class="c-base-1"><?=$member->first_name." ".$member->last_name?></a>
-            </h3>
-            <h4 class="heading heading-xs c-gray-light text-uppercase strong-400"><?=$education_and_career_data[0]['occupation']?></h4>
-            <table class="table-striped table-bordered mb-2" style="font-size: 12px;">
-                <tr>
-                    <td height="30" style="padding-left: 5px;" class="font-dark"><b><?php echo translate('Member ID')?></b></td>
-                    <td height="30" style="padding-left: 5px;" class="font-dark" colspan="3"><a onclick="return goto_profile(<?=$member->member_id?>)" class="c-base-1"><b>HM_<?=$member->member_profile_id?></b></a></td>
-                </tr>
-                <tr>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><b><?php echo translate('age')?></b></td>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><?=$calculated_age?></td>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><b><?php echo translate('height')?></b></td>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><?=$member->height." ".translate('feet')?></td>
-                </tr>
-                <tr>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><b><?php echo translate('religion')?></b></td>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><?=$this->Crud_model->get_type_name_by_id('religion', $spiritual_and_social_background_data[0]['religion']);?></td>
-                    <td width="120" height="30" style="padding-left: 5px;"><b><?php echo translate('caste_/_sect')?></b></td>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><?=$this->db->get_where('caste', array('caste_id'=>$spiritual_and_social_background_data[0]['caste']))->row()->caste_name?></td>
-                </tr>
-                <tr>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><b><?php echo translate('mother_tongue')?></b></td>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><?=$this->Crud_model->get_type_name_by_id('language', $language_data[0]['mother_tongue']);?></td>
-                    <td width="120" height="30" style="padding-left: 5px;"><b><?php echo translate('marital_status')?></b></td>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><?=$this->Crud_model->get_type_name_by_id('marital_status', $basic_info_data[0]['marital_status'])?></td>
-                </tr>
-                <tr>
-                    <td width="120" height="30" style="padding-left: 5px;" class="font-dark"><b><?php echo translate('location')?></b></td>
-                    <td colspan="3" height="30" style="padding-left: 5px;" class="font-dark"><?php if($present_address_data[0]['country']){echo $this->Crud_model->get_type_name_by_id('state', $present_address_data[0]['state']).', '.$this->Crud_model->get_type_name_by_id('country', $present_address_data[0]['country']);}?></td>
-                </tr>
-            </table>
+                    <button id="myBtn_<?=$member->member_id?>" onclick="return goto_profile(<?=$member->member_id?>)">View More</button>
+                    <script>
+                        function myFunction() {
+                            var id = "<?=$member->member_id?>";
+                            var dots = document.getElementById("dots");
+                            var moreText = document.getElementById("more_"+id);
+                            var btnText = document.getElementById("myBtn_"+id);
+
+                            if (dots.style.display === "none") {
+                                dots.style.display = "inline";
+                                btnText.innerHTML = "Read more";
+                                moreText.style.display = "none";
+                            } else {
+                                dots.style.display = "none";
+                                btnText.innerHTML = "Read less";
+                                moreText.style.display = "inline";
+                            }
+                        }
+                    </script>
+
+
+                </div>
+            </div>
+
         </div>
-        <div class="block-footer b-xs-top">
-            <div class="row align-items-center">
-                <div class="col-sm-12 text-center">
-                    <ul class="inline-links inline-links--style-3">
-                        <li class="listing-hover">
-                            <a onclick="return goto_profile(<?=$member->member_id?>)">
-                                <i class="fa fa-id-card"></i><?php echo translate('full_profile')?>
-                            </a>
-                        </li>
+        <div class="row">
+            <div class="officeadd-section-footer">
+                <div class="text-center">
+                    <ul>
+                        <li><a onclick="return goto_profile(<?=$member->member_id?>)"><i class="fa fa-id-card-o" aria-hidden="true"></i>Full Profile </a></li>
+                        <!-- <li><a id="interest_a_<?=$member->member_id?>" <?php if ($interest_onclick == 1){?>onclick="return confirm_interest(<?=$member->member_id?>)"<?php }?>><i class="fa fa-heart" aria-hidden="true"></i>Express Interest</a></li>
+                        <li><a href="#"><i class="fa fa-list" aria-hidden="true"></i>Shortlist </a></li>
+                        <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i>Follow</a></li>
+                        <li><a href="#"><i class="fa fa-ban" aria-hidden="true"></i>Ignore</a></li>
+                        <li><a href="#"><i class="fa fa-odnoklassniki" aria-hidden="true"></i>Profile Report</a></li> -->
                         <?php if($this->db->get_where("member", array("member_id" => $this->session->userdata('member_id')))->row()->is_closed == 'yes'){ echo " "; }else{?>
                             <li class="listing-hover">
                                 <?php
@@ -264,31 +329,81 @@ foreach ($get_all_members as $member): ?>
                                 </a>
                             </li>
                         <?php } ?>
-                    </ul>
 
+                    </ul>
                 </div>
             </div>
         </div>
+
     </div>
-<?php endforeach ?>
-<div id="pseudo_pagination" style="display: none;">
-    <?= $this->ajax_pagination->create_links();?>
 </div>
 
-<script type="text/javascript">
-    $('#pagination').html($('#pseudo_pagination').html());
-</script>
+<?php endforeach ?>
+<div class="text-center">
+    <div class="pagination"><?=$links?></div>
+</div>
+
+    <style>
+.pagination {
+	display: inline-block;
+	text-align: center;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding:4px 8px;
+	text-decoration: none;
+	border: 1px solid #ddd;
+}
+
+.pagination a.active {
+	background-color: #F68B1E;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pagination a:first-child {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+</style>
+<style>
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+     border-radius: 5px;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+</style>
 
 <script>
     var isloggedin = "<?=$this->session->userdata('member_id')?>";
 
     function goto_profile(id) {
-        // alert(id);
+        
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_view_full_profile_of_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?=translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             window.location.href = "<?=base_url()?>home/member_profile/"+id;
@@ -299,10 +414,7 @@ foreach ($get_all_members as $member): ?>
     function confirm_interest(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_express_interest_on_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?=translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             if (rem_interests <= 0) {
@@ -324,10 +436,7 @@ foreach ($get_all_members as $member): ?>
     function do_interest(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_express_interest_on_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             $("#confirm_interest").removeAttr("onclick");
@@ -363,10 +472,7 @@ foreach ($get_all_members as $member): ?>
     function do_shortlist(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_shortlist_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             $("#shortlist_a_"+id).removeAttr("onclick");
@@ -400,10 +506,7 @@ foreach ($get_all_members as $member): ?>
     function remove_shortlist(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_remove_this_member_from_shortlist')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?=translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             $("#shortlist_a_"+id).removeAttr("onclick");
@@ -437,10 +540,7 @@ foreach ($get_all_members as $member): ?>
     function do_follow(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_follow_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             $("#followed_a_"+id).removeAttr("onclick");
@@ -473,10 +573,7 @@ foreach ($get_all_members as $member): ?>
     function do_unfollow(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_unfollow_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             $("#followed_a_"+id).removeAttr("onclick");
@@ -510,10 +607,7 @@ foreach ($get_all_members as $member): ?>
     function confirm_ignore(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_ignore_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             $("#active_modal").modal("toggle");
@@ -527,10 +621,7 @@ foreach ($get_all_members as $member): ?>
     function do_ignore(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_ignore_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             $("#confirm_ignore").removeAttr("onclick");
@@ -562,10 +653,7 @@ foreach ($get_all_members as $member): ?>
     function do_report(id) {
         // alert(id);
         if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in')?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_report_this_member')?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close')?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in')?></a>");
+            $("#loginModal").modal("toggle");
         }
         else {
             $("#report_a_"+id).removeAttr("onclick");

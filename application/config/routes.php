@@ -54,3 +54,7 @@ $route['404_override'] = 'my404';
 $route['translate_uri_dashes'] = FALSE;
 $route['sitemap\.xml'] = "Sitemap/index";
 $route['stories/(:num)'] = 'home/stories/$1';
+$route['listing2/(:num)'] = 'home/listing2/$1';
+$route['career/(:num)'] = 'home/career/$1';
+$route['blog/(:num)'] = 'home/blog/$1';
+$route['blog_category/(:num)'] = 'home/blog_category/$1';

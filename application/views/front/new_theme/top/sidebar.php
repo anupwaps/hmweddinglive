@@ -11,10 +11,10 @@
         <li><a href="<?= base_url();?>home/stories">Happy Stories</a></li>
         <li><a href="<?= base_url();?>home/contact_us">Contact us</a></li>
         <li><a href="<?= base_url();?>home/about_us">About us</a></li>
-        <li><a href="#">Help</a></li>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Download App</a></li>
-        <li><a href="#">Media &amp; PR</a></li>
+        <li><a href="<?= base_url();?>home/help">Help</a></li>
+        <li><a href="<?= base_url();?>home/blog">Blog</a></li>
+        <li><a href="<?= base_url();?>home/wedding_app">Download App</a></li>
+        <li><a href="<?= base_url();?>home/media_pr">Media &amp; PR</a></li>
     </ul>
     <div class="side-feedback contain">
         <h3>Give Us Your Feedback</h3>

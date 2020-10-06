@@ -120,7 +120,9 @@
 						</ul>
 					</li>
 					<?php } if ($this->Crud_model->admin_permission('extra_settings')){?>
-					<li <?php if($page_name=="header"||$page_name=="pages"||$page_name=="footer" || $page_name=="extra_page_settings" ||$page_name=="gallery_settings" || $page_name=="follow_connect"|| $page_name=="payment_settings"){ ?> class="active-sub active" <?php } ?>>
+					<li <?php if($page_name=="header"||$page_name=="pages"||$page_name=="footer" ||$page_name=="career" 
+					||$page_name=="media_pr_settings" || $page_name=="extra_page_settings" ||$page_name=="gallery_settings" || $page_name=="follow_connect"
+					|| $page_name=="payment_settings"){ ?> class="active-sub active" <?php } ?>>
 						<a href="#">
 							<i class="fa fa-desktop"></i>
 							<span class="menu-title"><?php echo translate('extra_settings')?></span>
@@ -141,6 +143,37 @@
 							<li <?php if($page_name=="extra_page_settings"){ ?> class="active-link" <?php } ?>>
 								<a href="<?=base_url()?>admin/extra_page_settings"><i class="fa fa-window-maximize"></i><?php echo translate('extra_page_settings')?></a>
 							</li>
+							<li <?php if($page_name=="career"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/career"><i class="fa fa-window-maximize"></i><?php echo translate('career')?></a>
+							</li>
+							<li <?php if($page_name=="media_pr_settings"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/media_pr_settings"><i class="fa fa-window-maximize"></i><?php echo translate('media_pr_settings')?></a>
+							</li>
+							<?php } ?>
+						</ul>
+					</li>
+					<?php } if ($this->Crud_model->admin_permission('blog_settings')){?>
+					<li <?php if($page_name=="header"||$page_name=="pages"||$page_name=="footer" || $page_name=="blog" ||$page_name=="blog_cat" || $page_name=="follow_connect"|| $page_name=="payment_settings"){ ?> class="active-sub active" <?php } ?>>
+						<a href="#">
+							<i class="fa fa-desktop"></i>
+							<span class="menu-title"><?php echo translate('blog_settings')?></span>
+							<i class="arrow"></i>
+						</a>
+						<!--Submenu-->
+						<ul class="collapse">
+							<?php if ($this->Crud_model->admin_permission('blog_settings')){?>
+							<li <?php if($page_name=="blog_cat"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/blog_cat"><i class="fa fa-window-maximize"></i><?php echo translate('blog_category')?></a>
+							</li>
+							<li <?php if($page_name=="blog"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/blog"><i class="fa fa-window-maximize"></i><?php echo translate('blog_settings')?></a>
+							</li>
+							<!-- <li <?php if($page_name=="payment_settings"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/payment_settings"><i class="fa fa-window-maximize"></i><?php echo translate('payment_option_settings')?></a>
+							</li>
+							<li <?php if($page_name=="extra_page_settings"){ ?> class="active-link" <?php } ?>>
+								<a href="<?=base_url()?>admin/extra_page_settings"><i class="fa fa-window-maximize"></i><?php echo translate('extra_page_settings')?></a>
+							</li> -->
 							<?php } ?>
 						</ul>
 					</li>

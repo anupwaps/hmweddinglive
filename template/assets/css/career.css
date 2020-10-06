@@ -1,0 +1,21 @@
+.navbar .login_button{
+    float: right;
+}
+.navbar .login_button a{
+    background: #1C3554;
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 400;
+}
+.navbar .login_button a:hover{
+    background: #B41E4D;
+}
+.card .card-body h3{
+    font-size: 20px !important;
+}
+.card .card-body .clearfix{
+    padding: 5px 0px;
+}

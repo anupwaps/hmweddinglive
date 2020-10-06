@@ -76,7 +76,7 @@
                  <div class="col-lg-5 col-md-5 col-xs-4 col-sm-12 mobileapp-img"> <img class="img-fluid" src="<?=base_url()?>template/assets/images/mobile.png" alt="LoveVivah App" /> </div>
                  <div class="col-lg-7 col-md-8 col-sm-8 col-xs-12 parallax-caption">
                      <h2>Happiness is Just an App Away!</h2>
-                     <p>Find your right match with Lovevivah.com </p>
+                     <p>Find your right match with Hmwedding.com </p>
                      <p style="font-weight:bold;"><i class="fa fa-hand-o-right"></i> Simple | Fast | Convenient | Safe & Secure</p>
                      <div class="app-download-btn">
                          <p>Available on iOS and Android</p>

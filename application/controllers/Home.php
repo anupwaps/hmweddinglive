@@ -130,6 +130,7 @@ class Home extends CI_Controller {
             recache();
             $this->load->view('front/index', $page_data);
         }
+        
         elseif ($para1=="home_search") {
             $page_data['title'] = "Listing Page || ".$this->system_title;
             $page_data['top'] = "listing.php";
@@ -147,6 +148,7 @@ class Home extends CI_Controller {
             $page_data['home_language'] = $this->input->post('language');
             $page_data['min_height'] = $this->input->post('min_height');
             $page_data['max_height'] = $this->input->post('max_height');
+            $page_data['country'] = $this->input->post('country');
             $page_data['search_member_type'] = "all";
             recache();
             $this->load->view('front/index', $page_data);
@@ -986,6 +988,7 @@ class Home extends CI_Controller {
         $page_data['count'] = $config['total_rows'];
 
         $this->load->view('front/listing/members', $page_data);
+        // $this->load->view('front/new_theme/listing/members', $page_data);
     }
 
     function top_bar_right() {
@@ -2329,11 +2332,25 @@ class Home extends CI_Controller {
 
     function plans($para1="",$para2="")
     {
+        // if ($para1=="") {
+        //     $page_data['title'] = "Premium Plans || ".$this->system_title;
+        //     $page_data['top'] = "plans.php";
+        //     $page_data['page'] = "plans";
+        //     $page_data['bottom'] = "plans.php";
+        //     $page_data['all_plans'] = $this->db->get("plan")->result();
+        //     if ($this->session->flashdata('alert') == "paypal_cancel") {
+        //         $page_data['danger_alert'] = translate("you_have_canceled_your_payment_via_paypal!");
+        //     }
+        //     elseif ($this->session->flashdata('alert') == "pum_fail") {
+        //         $page_data['danger_alert'] = translate("your_payment_via_payUMoney_has_been_failed!");
+        //     }
+        //     elseif ($this->session->flashdata('alert') == "stripe_failed") {
+        //         $page_data['danger_alert'] = translate("your_payment_via_stripe_has_been_failed!");
+        //     }
+        //     $this->load->view('front/index', $page_data);
+        // }
         if ($para1=="") {
-            $page_data['title'] = "Premium Plans || ".$this->system_title;
-            $page_data['top'] = "plans.php";
-            $page_data['page'] = "plans";
-            $page_data['bottom'] = "plans.php";
+            $page_data['page'] = "plans/index.php";
             $page_data['all_plans'] = $this->db->get("plan")->result();
             if ($this->session->flashdata('alert') == "paypal_cancel") {
                 $page_data['danger_alert'] = translate("you_have_canceled_your_payment_via_paypal!");
@@ -2344,7 +2361,7 @@ class Home extends CI_Controller {
             elseif ($this->session->flashdata('alert') == "stripe_failed") {
                 $page_data['danger_alert'] = translate("your_payment_via_stripe_has_been_failed!");
             }
-            $this->load->view('front/index', $page_data);
+            $this->load->view('front/indexextra', $page_data);
         }
         elseif ($para1=="subscribe") {
             if ($this->member_permission() == FALSE) {
@@ -3055,6 +3072,68 @@ class Home extends CI_Controller {
                         $this->session->set_flashdata('alert', 'success');
 
                         redirect(base_url() . 'home/contact_us', 'refresh');
+
+                    }
+                } else {
+                    echo 'Disallowed charecter : " ' . $char . ' " in the POST';
+                }
+            }
+        }
+        if ($para1 == 'send_abuse') {
+            $safe = 'yes';
+            $char = '';
+            foreach ($_POST as $row) {
+                if (preg_match('/[\'^":()}{#~><>|=+¬]/', $row, $match)) {
+                    $safe = 'no';
+                    $char = $match[0];
+                }
+            }
+            $this->form_validation->set_rules('name', 'Name', 'required');
+            $this->form_validation->set_rules('subject', 'Subject', 'required');
+            $this->form_validation->set_rules('message', 'Message', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required');
+
+            if ($this->form_validation->run() == FALSE) {
+                // echo validation_errors();
+            } else {
+                if ($safe == 'yes') {
+                    if ($this->Crud_model->get_settings_value('third_party_settings', 'captcha_status', 'value') == 'ok') {
+                        $captcha_answer = $this->input->post('g-recaptcha-response');
+                        $response = $this->recaptcha->verifyResponse($captcha_answer);
+                        if ($response['success']) {
+                            $data['name'] = $this->input->post('name', true);
+                            $data['subject'] = $this->input->post('subject');
+                            $data['email'] = $this->input->post('email');
+                            $data['message'] = $this->security->xss_clean(($this->input->post('message')));
+                            $data['view'] = 'no';
+                            $data['timestamp'] = time();
+                            $this->db->insert('contact_message', $data);
+                            echo 'sent';
+                        } else {
+                            $page_data['title'] = "Contact Us || ".$this->system_title;
+                            $page_data['top'] = "contact_us.php";
+                            $page_data['page'] = "contact_us";
+                            $page_data['bottom'] = "contact_us.php";
+
+                            if ($this->Crud_model->get_settings_value('third_party_settings', 'captcha_status', 'value') == 'ok') {
+                                $page_data['recaptcha_html'] = $this->recaptcha->render();
+                            }
+                            $page_data['captcha_incorrect'] = TRUE;
+                            $page_data['form_contents'] = $this->input->post();
+                            $this->load->view('front/index', $page_data);
+                        }
+                    } else {
+                        $data['name'] = $this->input->post('name', true);
+                        $data['subject'] = $this->input->post('subject');
+                        $data['email'] = $this->input->post('email');
+                        $data['message'] = $this->security->xss_clean(($this->input->post('message')));
+                        $data['view'] = 'no';
+                        $data['timestamp'] = time();
+                        $this->db->insert('contact_message', $data);
+
+                        $this->session->set_flashdata('alert', 'success');
+
+                        redirect(base_url() . 'home/report_abuse', 'refresh');
 
                     }
                 } else {
@@ -4359,6 +4438,1468 @@ class Home extends CI_Controller {
         $page_data['privacy_policy'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'privacy_policy'));
         $this->load->view('front/indexextra', $page_data);
     
+    }
+    function customer_reviews()
+    {
+        $page_data['page'] = "extra_page/customer_reviews.php";
+        $page_data['customer_reviews'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'customer_reviews'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function business_license()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'business_license'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function awards_of_recognition()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'awards_of_recognition'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function hm_wedding_offices()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'hm_wedding_offices'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function hm_wedding_international()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'hm_wedding_international'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function terms_of_use()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'terms_of_use'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function payment_option()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'payment_option'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function payment_search()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'payment_search'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function feedback_quaries()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'feedback_quaries'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function quick_staff_guide()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'quick_staff_guide'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function tutorials()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'tutorials'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function disclaimer()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'disclaimer'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function payment_policy()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'payment_policy'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function cookie_policy()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'cookie_policy'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function refund_policy()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'refund_policy'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function privacy_features()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'privacy_features'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function report_abuse()
+    {
+        $page_data['page'] = "extra_page/report_abuse.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'report_abuse'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function fraud_alert()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'fraud_alert'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function end_user_agreement()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'end_user_agreement'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function manage_account()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'manage_account'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function membership_level()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'membership_level'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function membership_option()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'membership_option'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function account_verification()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'account_verification'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function safety_tips()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'safety_tips'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function safety_security()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'safety_security'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function event_planner()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'event_planner'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function vip_weddings()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'vip_weddings'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function news_room()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'news_room'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function hm_wedding_cinematography()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'hm_wedding_cinematography'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function hm_wedding_invitation()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'hm_wedding_invitation'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function wedding_app()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'wedding_app'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function community()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'community'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function help()
+    {
+        $page_data['page'] = "extra_page/general.php";
+        $page_data['general'] = $this->Rest_model->SelectData_1('extra_page_settings','*',array('page_name'=>'help'));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function media_pr()
+    {
+        $page_data['page'] = "extra_page/media_pr.php";
+        $page_data['general'] = $this->Rest_model->SelectDataOrder('media_pr_settings', '*', '','media_id','desc');
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function career()
+    {
+        $page_data['page'] = "extra_page/career.php";
+        $config = array();
+        $config["base_url"] = base_url().'home/career';
+        $config['total_rows'] = $this->db->get('career')->num_rows();
+
+        $config["per_page"] = 3;
+        $config["uri_segment"] = 3;
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+
+        $config['cur_tag_open'] = '<a class="active">';
+        $config['cur_tag_close'] = '</a>';
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $page_data['general'] = $this->db->order_by("career_id", "desc")->get('career',  $config['per_page'], $page)->result();
+        $page_data["links"]= $this->pagination->create_links();
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function career_details($id)
+    {
+        $page_data['page'] = "extra_page/career_details.php";
+        $page_data['g'] = $this->Rest_model->SelectData_1('career','*',array('career_id'=>$id));
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function blog()
+    {
+        $page_data['page'] = "blog/blog.php";
+        $config = array();
+        $config["base_url"] = base_url().'home/blog';
+        $config['total_rows'] = $this->db->get('blog')->num_rows();
+
+        $config["per_page"] = 3;
+        $config["uri_segment"] = 3;
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = floor($choice);
+
+        $config['cur_tag_open'] = '<a class="active">';
+        $config['cur_tag_close'] = '</a>';
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $page_data['general'] = $this->db->order_by("blog_id", "RANDOM")->get('blog',  $config['per_page'], $page)->result();
+        $page_data["links"]= $this->pagination->create_links();
+        $page_data['blog_cat'] = $this->Rest_model->SelectDataOrder('blog_cat', '*', '','blog_cat_id','asc');
+        $page_data['recent'] = $this->db->order_by("blog_id", "desc")->limit('4')->get('blog')->result();
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function blog_details($id)
+    {
+        $page_data['page'] = "blog/blog_details.php";
+        $page_data['g'] = $this->Rest_model->SelectData_1('blog','*',array('blog_id'=>$id));
+        $page_data['blog_cat'] = $this->Rest_model->SelectDataOrder('blog_cat', '*', '','blog_cat_id','asc');
+        $page_data['recent'] = $this->db->order_by("blog_id", "desc")->limit('4')->get('blog')->result();
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function blog_category($id)
+    {
+        if($id == ""){
+            redirect(base_url().'home/blog', 'refresh');
+        }
+        $page_data['page'] = "blog/blog_category.php";
+        // $config = array();
+        // $config["base_url"] = base_url().'home/blog_category/'.$id;
+        // $config['total_rows'] = $this->db->get_where('blog', array('cat_id'=>$id) )->num_rows();
+
+        // $config["per_page"] = 1;
+        // $config["uri_segment"] = 3;
+        // $choice = $config["total_rows"] / $config["per_page"];
+        // $config["num_links"] = floor($choice);
+
+        // $config['cur_tag_open'] = '<a class="active">';
+        // $config['cur_tag_close'] = '</a>';
+        // $this->pagination->initialize($config);
+
+        // $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        // $page_data['general'] = $this->db->order_by("blog_id", "RANDOM")->get_where('blog', array('cat_id'=>$id),  $config['per_page'], $page)->result();
+        // $page_data["links"]= $this->pagination->create_links();
+        $page_data['general'] = $this->db->order_by("blog_id", "RANDOM")->get_where('blog', array('cat_id'=>$id))->result();
+        $page_data['blog_cat'] = $this->Rest_model->SelectDataOrder('blog_cat', '*', '','blog_cat_id','asc');
+        $page_data['recent'] = $this->db->order_by("blog_id", "desc")->limit('4')->get('blog')->result();
+        // var_dump($config['total_rows'] );
+        $this->load->view('front/indexextra', $page_data);
+    
+    }
+    function listing2($para1="",$para2="")
+    {
+        $this->load->library('Ajax_pagination');
+        $member_approval = $this->db->get_where('general_settings', array('type' => 'member_approval_by_admin'))->row()->value;
+        if (!empty($this->session->userdata['member_id']))
+        {
+            $get_member_gender = $this->db->get_where('member',array('member_id'=>$this->session->userdata['member_id']))->row()->gender;
+            if($get_member_gender == '2') {
+                $member_gender = '1';
+            }
+            if($get_member_gender == '1') {
+                $member_gender = '2';
+            }
+        }
+        if ($para1==""  || is_numeric($para1)) {
+            $page_data['page'] = "listing/index.php";
+            $page_data['nav_dropdown'] = "all_members";
+            $page_data['home_search'] = "false";
+
+            $page_data['home_gender'] = "";
+            $page_data['home_religion'] = "";
+            $page_data['home_caste'] = "";
+            $page_data['home_sub_caste'] = "";
+            $page_data['home_language'] = "";
+            $page_data['min_height'] = "";
+            $page_data['max_height'] = "";
+            $page_data['search_member_type'] = "all";
+            recache();
+
+            if ($this->member_permission() == FALSE) {
+                $cond = array('is_blocked' =>'no','is_closed' =>'no');
+                $cond = status($member_approval, $cond);
+                
+                $config = array();
+                $config["base_url"] = base_url().'home/listing2';
+                $config["per_page"] = 4;
+                $config["uri_segment"] = 3;
+                $config['cur_tag_open'] = '<a class="active">';
+                $config['cur_tag_close'] = '</a>';
+
+                $config['total_rows'] = $this->db->where($cond)->get('member')->num_rows();
+
+                $choice = $config["total_rows"] / $config["per_page"];
+                $config["num_links"] = floor($choice);
+                $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+                $page_data['get_all_members'] = $this->db->where($cond)->get('member', $config['per_page'], $page)->result();
+                $this->pagination->initialize($config);
+                $page_data["links"]= $this->pagination->create_links();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config = array();
+                    $config["base_url"] = base_url().'home/listing2';
+                    $config["per_page"] = 4;
+                    $config["uri_segment"] = 3;
+                    $config['cur_tag_open'] = '<a class="active">';
+                    $config['cur_tag_close'] = '</a>';
+
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->num_rows();
+
+                    $choice = $config["total_rows"] / $config["per_page"];
+                    $config["num_links"] = floor($choice);
+                    $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+                    $page_data['get_all_members'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data, $config['per_page'], $page)->result();
+                    $this->pagination->initialize($config);
+                    $page_data["links"]= $this->pagination->create_links();
+                    
+                }
+                else {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config = array();
+                    $config["base_url"] = base_url().'home/listing2';
+                    $config["per_page"] = 4;
+                    $config["uri_segment"] = 3;
+                    $config['cur_tag_open'] = '<a class="active">';
+                    $config['cur_tag_close'] = '</a>';
+
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->num_rows();
+
+                    $choice = $config["total_rows"] / $config["per_page"];
+                    $config["num_links"] = floor($choice);
+                    $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+                    $page_data['get_all_members'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data , $config['per_page'], $page)->result();
+                    $this->pagination->initialize($config);
+                    $page_data["links"]= $this->pagination->create_links();
+                    
+                }
+            }
+            $this->load->view('front/indexextra', $page_data);
+        }elseif ($para2 == "searching") {
+            // $config_base_url = base_url().'home/ajax_member_list2/search/';
+            $all_result = array();
+            if ($this->member_permission() == FALSE) {
+                $cond = array('is_blocked' =>'no','is_closed' =>'no');
+                $cond = status($member_approval, $cond);
+                $all_id = $this->db->select('member_id')->where($cond)->get('member')->result();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $all_id = $this->db->select('member_id')->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member',$array_data )->result();
+                    //$this->db->last_query($all_id);
+                }
+                else {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $all_id = $this->db->select('member_id')->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->result();
+                }
+
+            }
+            foreach ($all_id as $row) {
+                $all_result[] = $row->member_id;
+            }
+
+            $gender   = $this->input->post('gender');
+            $member_profile_id   = $this->input->post('member_id');
+            $marital_status = $this->input->post('marital_status');
+            $religion = $this->input->post('religion');
+            $caste    = $this->input->post('caste');
+            $sub_caste= $this->input->post('sub_caste');
+            $language = $this->input->post('language');
+            $country  = $this->input->post('country');
+            $state    = $this->input->post('state');
+            $city     = $this->input->post('city');
+            $profession     = $this->input->post('profession');
+
+            $aged_from = $this->input->post('aged_from') - 1;
+            if (!empty($aged_from)) {
+                $from_year = date('Y') - $aged_from;
+                $from_date = $from_year."-01-01";
+                $sql_aged_from = strtotime($from_date);
+            }
+
+            $aged_to = $this->input->post('aged_to');
+            if (!empty($aged_to)) {
+                $to_year = date('Y') - $aged_to;
+                $to_date = $to_year."-01-01";
+                $sql_aged_to = strtotime($to_date);
+            }
+
+            $min_height = $this->input->post('min_height');
+            $max_height = $this->input->post('max_height');
+            $search_member_type = $this->input->post('search_member_type');
+
+            $by_gender = array();
+            $by_member_profile_id = array();
+            $by_marital_status = array();
+            $by_religion = array();
+            $by_caste = array();
+            $by_sub_caste = array();
+            $by_language = array();
+            $by_country = array();
+            $by_state = array();
+            $by_city = array();
+            $by_profession = array();
+            $by_age = array();
+            $by_height = array();
+            $by_member_type = array();
+
+            $all_array = array();
+
+            if (isset($gender) && $gender != "") {
+                $array_data = array('gender' => $gender);
+                $array_data = status($member_approval, $array_data);
+                $by_genders = $this->db->select('member_id')->get_where('member', $array_data)->result();
+                foreach ($by_genders as $by_genders) {
+                    $by_gender[] = $by_genders->member_id;
+                }
+            } else {
+                $by_gender = $all_result;
+            }
+
+            if (isset($member_profile_id) && $member_profile_id != "") {
+                $array_data = array('member_profile_id' => $member_profile_id);
+                $array_data = status($member_approval, $array_data);
+                $by_member_profile_ids = $this->db->select('member_id')->get_where('member', $array_data)->result();
+                foreach ($by_member_profile_ids as $by_member_profile_ids) {
+                    $by_member_profile_id[] = $by_member_profile_ids->member_id;
+                }
+            } else {
+                $by_member_profile_id = $all_result;
+            }
+
+            if (isset($profession) && $profession != "") {
+                $this->db->select('member_id')->like('education_and_career','"occupation":"'.$profession.'"','both');
+                $by_professions = $this->db->get('member')->result();
+                foreach ($by_professions as $by_professions) {
+                    $by_profession[] = $by_professions->member_id;
+                }
+            } else {
+                $by_profession = $all_result;
+            }
+
+            if (isset($marital_status) && $marital_status != "") {
+                $this->db->select('member_id')->like('basic_info','"marital_status":"'.$marital_status.'"','both');
+                $by_marital_statuss = $this->db->get('member')->result();
+                foreach ($by_marital_statuss as $by_marital_statuss) {
+                    $by_marital_status[] = $by_marital_statuss->member_id;
+                }
+            } else {
+                $by_marital_status = $all_result;
+            }
+
+            if (isset($religion) && $religion != "") {
+                $this->db->select('member_id')->like('spiritual_and_social_background','"religion":"'.$religion.'"','both');
+                $by_religions = $this->db->get('member')->result();
+                foreach ($by_religions as $by_religions) {
+                    $by_religion[] = $by_religions->member_id;
+                }
+            } else {
+                $by_religion = $all_result;
+            }
+
+            // if (isset($caste) && $caste != "") {
+            //     $this->db->select('member_id')->like('spiritual_and_social_background','"caste":"'.$caste.'"','both');
+            //     $by_castes = $this->db->get('member')->result();
+            //     foreach ($by_castes as $by_castes) {
+            //         $by_caste[] = $by_castes->member_id;
+            //     }
+            // } else {
+            //     $by_caste = $all_result;
+            // }
+
+            if (isset($caste) && $caste != "") {
+                $this->db->select('member_id')->like('spiritual_and_social_background','"caste":"'.$caste.'"','both');
+                $by_castes = $this->db->get('member')->result();
+                foreach ($by_castes as $by_castes) {
+                    $by_caste[] = $by_castes->member_id;
+                }
+            } else {
+                $by_caste = $all_result;
+            }
+
+            if (isset($sub_caste) && $sub_caste != "") {
+                $this->db->select('member_id')->like('present_address','"sub_caste":"'.$sub_caste.'"','both');
+                $by_sub_caste = $this->db->get('member')->result();
+                foreach ($by_sub_caste as $by_sub_caste) {
+                    $by_sub_caste[] = $by_sub_caste->member_id;
+                }
+            } else {
+                $by_sub_caste = $all_result;
+            }
+
+            if (isset($language) && $language != "") {
+                $this->db->select('member_id')->like('language','"mother_tongue":"'.$language.'"','both');
+                $by_languages = $this->db->get('member')->result();
+                foreach ($by_languages as $by_languages) {
+                    $by_language[] = $by_languages->member_id;
+                }
+            } else {
+                $by_language = $all_result;
+            }
+
+            if (isset($country) && $country != "") {
+                $this->db->select('member_id')->like('present_address','"country":"'.$country.'"','both');
+                $by_countries = $this->db->get('member')->result();
+                foreach ($by_countries as $by_countries) {
+                    $by_country[] = $by_countries->member_id;
+                }
+            } else {
+                $by_country = $all_result;
+            }
+
+            if (isset($state) && $state != "") {
+                $this->db->select('member_id')->like('present_address','"state":"'.$state.'"','both');
+                $by_states = $this->db->get('member')->result();
+                foreach ($by_states as $by_states) {
+                    $by_state[] = $by_states->member_id;
+                }
+            } else {
+                $by_state = $all_result;
+            }
+
+            if (isset($city) && $city != "") {
+                $this->db->select('member_id')->like('present_address','"city":"'.$city.'"','both');
+                $by_cities = $this->db->get('member')->result();
+                foreach ($by_cities as $by_cities) {
+                    $by_city[] = $by_cities->member_id;
+                }
+            } else {
+                $by_city = $all_result;
+            }
+
+            if (isset($sql_aged_from) && isset($sql_aged_to)) {
+                $by_ages = $this->db->select('member_id')->get_where('member',array('date_of_birth <=' => $sql_aged_from, 'date_of_birth >=' => $sql_aged_to))->result();
+                foreach ($by_ages as $by_ages) {
+                    $by_age[] = $by_ages->member_id;
+                }
+            } else {
+                $by_age = $all_result;
+            }
+
+            if (isset($min_height) && isset($max_height)) {
+                $by_heights = $this->db->select('member_id')->get_where('member',array('height >=' => $min_height, 'height <=' => $max_height))->result();
+                foreach ($by_heights as $by_heights) {
+                    $by_height[] = $by_heights->member_id;
+                }
+            } else {
+                $by_height = $all_result;
+            }
+
+            if (isset($search_member_type)) {
+                if ($search_member_type == "free_members") {
+                    $by_members_type = $this->db->select('member_id')->get_where('member',array('membership' => 1))->result();
+                }
+                elseif ($search_member_type == "premium_members") {
+                    $by_members_type = $this->db->select('member_id')->get_where('member',array('membership' => 2))->result();
+                }
+                elseif ($search_member_type == "all") {
+                    $by_members_type = $all_id;
+                }
+                foreach ($by_members_type as $by_members_type) {
+                    $by_member_type[] = $by_members_type->member_id;
+                }
+            } else {
+                $by_height = $all_result;
+            }
+            /*print_r($by_gender);
+            echo "<br>";
+            print_r($by_marital_status);
+            echo "<br>";
+            print_r($by_religion);
+            echo "<br>";
+            print_r($by_language);
+            echo "<br>";
+            print_r($by_country);
+            echo "<br>";
+            print_r($by_state);
+            echo "<br>";
+            print_r($by_city);
+            echo "<br>all<br>";*/
+            $all_array = array_intersect($by_gender,$by_member_profile_id,$by_marital_status,$by_profession,$by_religion,$by_caste,$by_sub_caste,$by_language,$by_country,$by_state,$by_city,$by_age,$by_height,$by_member_type);
+            // print_r($all_array);
+            $config['total_rows'] = count($all_array);
+        }
+        elseif ($para2 == "") {
+            if ($this->member_permission() == FALSE) {
+                $cond = array('is_blocked' =>'no','is_closed' =>'no');
+                $cond = status($member_approval, $cond);
+                $config['total_rows'] = $this->db->where($cond)->count_all_results('member');
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->num_rows();
+                }
+                else {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->num_rows();
+                }
+
+            }
+        }
+    }
+
+    function ajax_member_list2($para1="",$para2="")
+    {
+        $this->load->library('Ajax_pagination');
+        $member_approval = $this->db->get_where('general_settings', array('type' => 'member_approval_by_admin'))->row()->value;
+        if (!empty($this->session->userdata['member_id']))
+        {
+            $get_member_gender = $this->db->get_where('member',array('member_id'=>$this->session->userdata['member_id']))->row()->gender;
+            if($get_member_gender == '2') {
+                $member_gender = '1';
+            }
+            if($get_member_gender == '1') {
+                $member_gender = '2';
+            }
+        }
+        //$this->db->like('basic_info','"age":"30"','both');
+        $config_base_url = base_url().'home/ajax_member_list2/';
+        if ($para2 == "free_members") {
+            if ($this->member_permission() == FALSE) {
+                $array_data = array('membership' => 1, 'is_blocked' => 'no');
+                $array_data = status($member_approval, $array_data);
+                $config['total_rows'] = $this->db->get_where('member', $array_data)->num_rows();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('membership' => 1, 'member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');;
+                    $array_data = status($member_approval, $array_data);  
+                    $this->db->where('gender', $member_gender);
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data )->num_rows();
+                }
+                else {
+                    $array_data = array('membership' => 1, 'member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->num_rows();
+                }
+            }
+        }
+        elseif ($para2 == "premium_members") {
+            if ($this->member_permission() == FALSE) {
+                $array_data = array('membership' => 2, 'is_blocked' => 'no','is_closed' => 'no');
+                $array_data = status($member_approval, $array_data);  
+                $config['total_rows'] = $this->db->get_where('member', $array_data)->num_rows();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('membership' => 2, 'member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->num_rows();
+                }
+                else {
+                    $array_data = array('membership' => 2, 'member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data )->num_rows();
+                }
+            }
+        }
+        elseif ($para2 == "search") {
+            $config_base_url = base_url().'home/ajax_member_list2/search/';
+            $all_result = array();
+            if ($this->member_permission() == FALSE) {
+                $cond = array('is_blocked' =>'no','is_closed' =>'no');
+                $cond = status($member_approval, $cond);
+                $all_id = $this->db->select('member_id')->where($cond)->get('member')->result();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $all_id = $this->db->select('member_id')->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member',$array_data )->result();
+                    //$this->db->last_query($all_id);
+                }
+                else {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $all_id = $this->db->select('member_id')->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->result();
+                }
+
+            }
+            foreach ($all_id as $row) {
+                $all_result[] = $row->member_id;
+            }
+
+            $gender   = $this->input->post('gender');
+            $member_profile_id   = $this->input->post('member_id');
+            $marital_status = $this->input->post('marital_status');
+            $religion = $this->input->post('religion');
+            $caste    = $this->input->post('caste');
+            $sub_caste= $this->input->post('sub_caste');
+            $language = $this->input->post('language');
+            $country  = $this->input->post('country');
+            $state    = $this->input->post('state');
+            $city     = $this->input->post('city');
+            $profession     = $this->input->post('profession');
+
+            $aged_from = $this->input->post('aged_from') - 1;
+            if (!empty($aged_from)) {
+                $from_year = date('Y') - $aged_from;
+                $from_date = $from_year."-01-01";
+                $sql_aged_from = strtotime($from_date);
+            }
+
+            $aged_to = $this->input->post('aged_to');
+            if (!empty($aged_to)) {
+                $to_year = date('Y') - $aged_to;
+                $to_date = $to_year."-01-01";
+                $sql_aged_to = strtotime($to_date);
+            }
+
+            $min_height = $this->input->post('min_height');
+            $max_height = $this->input->post('max_height');
+            $search_member_type = $this->input->post('search_member_type');
+
+            $by_gender = array();
+            $by_member_profile_id = array();
+            $by_marital_status = array();
+            $by_religion = array();
+            $by_caste = array();
+            $by_sub_caste = array();
+            $by_language = array();
+            $by_country = array();
+            $by_state = array();
+            $by_city = array();
+            $by_profession = array();
+            $by_age = array();
+            $by_height = array();
+            $by_member_type = array();
+
+            $all_array = array();
+
+            if (isset($gender) && $gender != "") {
+                $array_data = array('gender' => $gender);
+                $array_data = status($member_approval, $array_data);
+                $by_genders = $this->db->select('member_id')->get_where('member', $array_data)->result();
+                foreach ($by_genders as $by_genders) {
+                    $by_gender[] = $by_genders->member_id;
+                }
+            } else {
+                $by_gender = $all_result;
+            }
+
+            if (isset($member_profile_id) && $member_profile_id != "") {
+                $array_data = array('member_profile_id' => $member_profile_id);
+                $array_data = status($member_approval, $array_data);
+                $by_member_profile_ids = $this->db->select('member_id')->get_where('member', $array_data)->result();
+                foreach ($by_member_profile_ids as $by_member_profile_ids) {
+                    $by_member_profile_id[] = $by_member_profile_ids->member_id;
+                }
+            } else {
+                $by_member_profile_id = $all_result;
+            }
+
+            if (isset($profession) && $profession != "") {
+                $this->db->select('member_id')->like('education_and_career','"occupation":"'.$profession.'"','both');
+                $by_professions = $this->db->get('member')->result();
+                foreach ($by_professions as $by_professions) {
+                    $by_profession[] = $by_professions->member_id;
+                }
+            } else {
+                $by_profession = $all_result;
+            }
+
+            if (isset($marital_status) && $marital_status != "") {
+                $this->db->select('member_id')->like('basic_info','"marital_status":"'.$marital_status.'"','both');
+                $by_marital_statuss = $this->db->get('member')->result();
+                foreach ($by_marital_statuss as $by_marital_statuss) {
+                    $by_marital_status[] = $by_marital_statuss->member_id;
+                }
+            } else {
+                $by_marital_status = $all_result;
+            }
+
+            if (isset($religion) && $religion != "") {
+                $this->db->select('member_id')->like('spiritual_and_social_background','"religion":"'.$religion.'"','both');
+                $by_religions = $this->db->get('member')->result();
+                foreach ($by_religions as $by_religions) {
+                    $by_religion[] = $by_religions->member_id;
+                }
+            } else {
+                $by_religion = $all_result;
+            }
+
+            // if (isset($caste) && $caste != "") {
+            //     $this->db->select('member_id')->like('spiritual_and_social_background','"caste":"'.$caste.'"','both');
+            //     $by_castes = $this->db->get('member')->result();
+            //     foreach ($by_castes as $by_castes) {
+            //         $by_caste[] = $by_castes->member_id;
+            //     }
+            // } else {
+            //     $by_caste = $all_result;
+            // }
+
+            if (isset($caste) && $caste != "") {
+                $this->db->select('member_id')->like('spiritual_and_social_background','"caste":"'.$caste.'"','both');
+                $by_castes = $this->db->get('member')->result();
+                foreach ($by_castes as $by_castes) {
+                    $by_caste[] = $by_castes->member_id;
+                }
+            } else {
+                $by_caste = $all_result;
+            }
+
+            if (isset($sub_caste) && $sub_caste != "") {
+                $this->db->select('member_id')->like('present_address','"sub_caste":"'.$sub_caste.'"','both');
+                $by_sub_caste = $this->db->get('member')->result();
+                foreach ($by_sub_caste as $by_sub_caste) {
+                    $by_sub_caste[] = $by_sub_caste->member_id;
+                }
+            } else {
+                $by_sub_caste = $all_result;
+            }
+
+            if (isset($language) && $language != "") {
+                $this->db->select('member_id')->like('language','"mother_tongue":"'.$language.'"','both');
+                $by_languages = $this->db->get('member')->result();
+                foreach ($by_languages as $by_languages) {
+                    $by_language[] = $by_languages->member_id;
+                }
+            } else {
+                $by_language = $all_result;
+            }
+
+            if (isset($country) && $country != "") {
+                $this->db->select('member_id')->like('present_address','"country":"'.$country.'"','both');
+                $by_countries = $this->db->get('member')->result();
+                foreach ($by_countries as $by_countries) {
+                    $by_country[] = $by_countries->member_id;
+                }
+            } else {
+                $by_country = $all_result;
+            }
+
+            if (isset($state) && $state != "") {
+                $this->db->select('member_id')->like('present_address','"state":"'.$state.'"','both');
+                $by_states = $this->db->get('member')->result();
+                foreach ($by_states as $by_states) {
+                    $by_state[] = $by_states->member_id;
+                }
+            } else {
+                $by_state = $all_result;
+            }
+
+            if (isset($city) && $city != "") {
+                $this->db->select('member_id')->like('present_address','"city":"'.$city.'"','both');
+                $by_cities = $this->db->get('member')->result();
+                foreach ($by_cities as $by_cities) {
+                    $by_city[] = $by_cities->member_id;
+                }
+            } else {
+                $by_city = $all_result;
+            }
+
+            if (isset($sql_aged_from) && isset($sql_aged_to)) {
+                $by_ages = $this->db->select('member_id')->get_where('member',array('date_of_birth <=' => $sql_aged_from, 'date_of_birth >=' => $sql_aged_to))->result();
+                foreach ($by_ages as $by_ages) {
+                    $by_age[] = $by_ages->member_id;
+                }
+            } else {
+                $by_age = $all_result;
+            }
+
+            if (isset($min_height) && isset($max_height)) {
+                $by_heights = $this->db->select('member_id')->get_where('member',array('height >=' => $min_height, 'height <=' => $max_height))->result();
+                foreach ($by_heights as $by_heights) {
+                    $by_height[] = $by_heights->member_id;
+                }
+            } else {
+                $by_height = $all_result;
+            }
+
+            if (isset($search_member_type)) {
+                if ($search_member_type == "free_members") {
+                    $by_members_type = $this->db->select('member_id')->get_where('member',array('membership' => 1))->result();
+                }
+                elseif ($search_member_type == "premium_members") {
+                    $by_members_type = $this->db->select('member_id')->get_where('member',array('membership' => 2))->result();
+                }
+                elseif ($search_member_type == "all") {
+                    $by_members_type = $all_id;
+                }
+                foreach ($by_members_type as $by_members_type) {
+                    $by_member_type[] = $by_members_type->member_id;
+                }
+            } else {
+                $by_height = $all_result;
+            }
+            /*print_r($by_gender);
+            echo "<br>";
+            print_r($by_marital_status);
+            echo "<br>";
+            print_r($by_religion);
+            echo "<br>";
+            print_r($by_language);
+            echo "<br>";
+            print_r($by_country);
+            echo "<br>";
+            print_r($by_state);
+            echo "<br>";
+            print_r($by_city);
+            echo "<br>all<br>";*/
+            $all_array = array_intersect($by_gender,$by_member_profile_id,$by_marital_status,$by_profession,$by_religion,$by_caste,$by_sub_caste,$by_language,$by_country,$by_state,$by_city,$by_age,$by_height,$by_member_type);
+            // print_r($all_array);
+            $config['total_rows'] = count($all_array);
+        }
+        elseif ($para2 == "") {
+            if ($this->member_permission() == FALSE) {
+                $cond = array('is_blocked' =>'no','is_closed' =>'no');
+                $cond = status($member_approval, $cond);
+                $config['total_rows'] = $this->db->where($cond)->count_all_results('member');
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->num_rows();
+                }
+                else {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $config['total_rows'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data)->num_rows();
+                }
+
+            }
+        }
+
+        // pagination
+        $config['base_url'] = $config_base_url;
+        $config['per_page'] = 5;
+        $config['uri_segment'] = 5;
+        $config['cur_page_giv'] = $para1;
+        if ($para2 == "search") {
+            $function = "filter_members('0', 'search')";
+        } else {
+            $function = "filter_members('0')";
+        }
+        $config['first_link'] = '&laquo;';
+        $config['first_tag_open'] = '<li class="page-item"><a class="page-link" onClick="' . $function . '">';
+        $config['first_tag_close'] = '</a></li>';
+
+        $rr = ($config['total_rows'] - 1) / $config['per_page'];
+
+        $last_start = floor($rr) * $config['per_page'];
+        if ($para2 == "search") {
+            $function = "filter_members('" . $last_start . "', 'search')";
+        } else {
+            $function = "filter_members('" . $last_start . "')";
+        }
+        //$function = "filter_members('" . $last_start . "')";
+        $config['last_link'] = '&raquo;';
+        $config['last_tag_open'] = '<li class="page-item"><a class="page-link" onClick="' . $function . '">';
+        $config['last_tag_close'] = '</a></li>';
+
+        if ($para2 == "search") {
+            $function = "filter_members('" . ($para1 - $config['per_page']) . "', 'search')";
+        } else {
+            $function = "filter_members('" . ($para1 - $config['per_page']) . "')";
+        }
+        //$function = "filter_members('" . ($para1 - $config['per_page']) . "')";
+        $config['prev_tag_open'] = '<li class="page-item"><a class="page-link" onClick="' . $function . '">';
+        $config['prev_tag_close'] = '</a></li>';
+
+        if ($para2 == "search") {
+            $function = "filter_members('" . ($para1 - $config['per_page']) . "', 'search')";
+        } else {
+            $function = "filter_members('" . ($para1 + $config['per_page']) . "')";
+        }
+        // $function = "filter_members('" . ($para1 + $config['per_page']) . "')";
+        $config['next_link'] = '>';
+        $config['next_tag_open'] = '<li class="page-item"><a class="page-link" onClick="' . $function . '">';
+        $config['next_tag_close'] = '</a></li>';
+
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link">';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+
+        if ($para2 == "search") {
+            $function = "filter_members(((this.innerHTML-1)*" . $config['per_page'] . "), 'search')";
+        } else {
+            $function = "filter_members(((this.innerHTML-1)*" . $config['per_page'] . "))";
+        }
+        // $function = "filter_members(((this.innerHTML-1)*" . $config['per_page'] . "))";
+        $config['num_tag_open'] = '<li class="page-item"><a class="page-link" onClick="' . $function . '">';
+        $config['num_tag_close'] = '</a></li>';
+        $this->ajax_pagination->initialize($config);
+
+        //$this->db->like('basic_info','"age":"30"','both');
+
+        if ($para2 == "free_members") {
+            if ($this->member_permission() == FALSE) {
+                
+                $array_data = array('membership' => 1, 'is_blocked' => 'no','is_closed' => 'no');
+                $array_data = status($member_approval, $array_data);
+                $page_data['get_all_members'] = $this->db->get_where('member',$array_data , $config['per_page'], $para1)->result();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('membership' => 1, 'member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $page_data['get_all_members'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data, $config['per_page'], $para1)->result();
+                }
+                else {
+                    $array_data = array('membership' => 1, 'member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $page_data['get_all_members'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data , $config['per_page'], $para1)->result();
+                }
+            }
+        }
+        elseif ($para2 == "premium_members") {
+            if ($this->member_permission() == FALSE) {
+                $array_data = array('membership' => 2, 'is_blocked' => 'no','is_closed' => 'no');
+                $array_data = status($member_approval, $array_data);
+                $page_data['get_all_members'] = $this->db->get_where('member',$array_data , $config['per_page'], $para1)->result();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('membership' => 2, 'member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $page_data['get_all_members'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data , $config['per_page'], $para1)->result();
+                }
+                else {
+                    $array_data = array('membership' => 2, 'member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $page_data['get_all_members'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data , $config['per_page'], $para1)->result();
+                }
+            }
+        }
+        elseif ($para2 == "search") {
+            $all_result = array();
+            if ($this->member_permission() == FALSE) {
+                $cond = array('is_blocked' =>'no','is_closed' =>'no');
+                $cond = status($member_approval, $cond); 
+                $all_id = $this->db->select('member_id')->where($cond)->get('member')->result();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $all_id = $this->db->select('member_id')->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member',$array_data )->result();
+                }
+                else {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $all_id = $this->db->select('member_id')->where_not_in('member_id', $ignored_by_ids)->get_where('member',$array_data )->result();
+                }
+
+            }
+            foreach ($all_id as $row) {
+                $all_result[] = $row->member_id;
+            }
+
+            if (isset($gender) && $gender != "") {
+                $array_data = array('gender' => $gender);
+                $array_data = status($member_approval, $array_data);
+                $by_genders = $this->db->select('member_id')->get_where('member', $array_data)->result();
+                foreach ($by_genders as $by_genders) {
+                    $by_gender[] = $by_genders->member_id;
+                }
+            } else {
+                $by_gender = $all_result;
+            }
+
+            if (isset($member_profile_id) && $member_profile_id != "") {
+                $array_data = array('member_profile_id' => $member_profile_id);
+                $array_data = status($member_approval, $array_data);
+                $by_member_profile_ids = $this->db->select('member_id')->get_where('member', $array_data)->result();
+                foreach ($by_member_profile_ids as $by_member_profile_ids) {
+                    $by_member_profile_id[] = $by_member_profile_ids->member_id;
+                }
+            } else {
+                $by_member_profile_id = $all_result;
+            }
+
+            if (isset($marital_status) && $marital_status != "") {
+                $this->db->select('member_id')->like('education_and_career','"marital_status":"'.$marital_status.'"','both');
+                $by_marital_statuss = $this->db->get('member')->result();
+                foreach ($by_marital_statuss as $by_marital_statuss) {
+                    $by_marital_status[] = $by_marital_statuss->member_id;
+                }
+            } else {
+                $by_marital_status = $all_result;
+            }
+
+            if (isset($profession) && $profession != "") {
+                $this->db->select('member_id')->like('basic_info','"occupation":"'.$profession.'"','both');
+                $by_professions = $this->db->get('member')->result();
+                foreach ($by_professions as $by_professions) {
+                    $by_profession[] = $by_professions->member_id;
+                }
+            } else {
+                $by_profession = $all_result;
+            }
+
+            if (isset($religion) && $religion != "") {
+                $this->db->select('member_id')->like('spiritual_and_social_background','"religion":"'.$religion.'"','both');
+                $by_religions = $this->db->get('member')->result();
+                foreach ($by_religions as $by_religions) {
+                    $by_religion[] = $by_religions->member_id;
+                }
+            } else {
+                $by_religion = $all_result;
+            }
+
+            if (isset($caste) && $caste != "") {
+                $this->db->select('member_id')->like('spiritual_and_social_background','"caste":"'.$caste.'"','both');
+                $by_castes = $this->db->get('member')->result();
+                foreach ($by_castes as $by_castes) {
+                    $by_caste[] = $by_castes->member_id;
+                }
+            } else {
+                $by_caste = $all_result;
+            }
+            if (isset($sub_caste) && $sub_caste != "") {
+                $this->db->select('member_id')->like('spiritual_and_social_background','"sub_caste":"'.$sub_caste.'"','both');
+                $by_sub_castes = $this->db->get('member')->result();
+                foreach ($by_sub_castes as $by_sub_castes) {
+                    $by_sub_caste[] = $by_sub_castes->member_id;
+                }
+            } else {
+                $by_sub_caste = $all_result;
+            }
+
+            if (isset($language) && $language != "") {
+                $this->db->select('member_id')->like('language','"mother_tongue":"'.$language.'"','both');
+                $by_languages = $this->db->get('member')->result();
+                foreach ($by_languages as $by_languages) {
+                    $by_language[] = $by_languages->member_id;
+                }
+            } else {
+                $by_language = $all_result;
+            }
+
+            if (isset($country) && $country != "") {
+                $this->db->select('member_id')->like('present_address','"country":"'.$country.'"','both');
+                $by_countries = $this->db->get('member')->result();
+                foreach ($by_countries as $by_countries) {
+                    $by_country[] = $by_countries->member_id;
+                }
+            } else {
+                $by_country = $all_result;
+            }
+
+            if (isset($state) && $state != "") {
+                $this->db->select('member_id')->like('present_address','"state":"'.$state.'"','both');
+                $by_states = $this->db->get('member')->result();
+                foreach ($by_states as $by_states) {
+                    $by_state[] = $by_states->member_id;
+                }
+            } else {
+                $by_state = $all_result;
+            }
+
+            if (isset($city) && $city != "") {
+                $this->db->select('member_id')->like('present_address','"city":"'.$city.'"','both');
+                $by_cities = $this->db->get('member')->result();
+                foreach ($by_cities as $by_cities) {
+                    $by_city[] = $by_cities->member_id;
+                }
+            } else {
+                $by_city = $all_result;
+            }
+
+            if (isset($sql_aged_from) && isset($sql_aged_to)) {
+                $by_ages = $this->db->select('member_id')->get_where('member',array('date_of_birth <=' => $sql_aged_from, 'date_of_birth >=' => $sql_aged_to))->result();
+                foreach ($by_ages as $by_ages) {
+                    $by_age[] = $by_ages->member_id;
+                }
+            } else {
+                $by_age = $all_result;
+            }
+
+            if (isset($min_height) && isset($max_height)) {
+                $by_heights = $this->db->select('member_id')->get_where('member',array('height >=' => $min_height, 'height <=' => $max_height))->result();
+                foreach ($by_heights as $by_heights) {
+                    $by_height[] = $by_heights->member_id;
+                }
+            } else {
+                $by_height = $all_result;
+            }
+
+            if (isset($search_member_type)) {
+                if ($search_member_type == "free_members") {
+                    $array_data = array('membership' => 1);
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $by_members_type = $this->db->select('member_id')->get_where('member', $array_data)->result();
+                }
+                elseif ($search_member_type == "premium_members") {
+                    $array_data = array('membership' => 2);
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $by_members_type = $this->db->select('member_id')->get_where('member', $array_data)->result();
+                }
+                elseif ($search_member_type == "all") {
+                    $by_members_type = $all_id;
+                }
+                foreach ($by_members_type as $by_members_type) {
+                    $by_member_type[] = $by_members_type->member_id;
+                }
+            } else {
+                $by_height = $all_result;
+            }
+            /*print_r($by_gender);
+            echo "<br>";
+            print_r($by_marital_status);
+            echo "<br>";
+            print_r($by_religion);
+            echo "<br>";
+            print_r($by_language);
+            echo "<br>";
+            print_r($by_country);
+            echo "<br>";
+            print_r($by_state);
+            echo "<br>";
+            print_r($by_city);
+            echo "<br>all<br>";*/
+            $all_array = array_intersect($by_gender,$by_member_profile_id,$by_profession,$by_marital_status,$by_religion,$by_caste,$by_sub_caste,$by_language,$by_country,$by_state,$by_city,$by_age,$by_height,$by_member_type);
+
+            if (count($all_array) != 0) {
+                $this->db->where_in('member_id', $all_array);
+                $cond = array('is_blocked' =>'no','is_closed' =>'no');
+                $cond = status($member_approval, $cond);
+                
+                $page_data['get_all_members'] = $this->db->where($cond)->get('member', $config['per_page'], $para1)->result();
+            } else {
+                $page_data['get_all_members']  = array();
+            }
+        }
+        elseif ($para2 == "") {
+            if ($this->member_permission() == FALSE) {
+                $cond = array('is_blocked' =>'no','is_closed' =>'no');
+                $cond = status($member_approval, $cond);
+                $page_data['get_all_members'] = $this->db->where($cond)->get('member', $config['per_page'], $para1)->result();
+            }
+            elseif ($this->member_permission() == TRUE) {
+                $member_id = $this->session->userdata('member_id');
+                //For Ignored Members
+                $ignored_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored');
+                $ignored_ids = json_decode($ignored_ids, true);
+                $ignored_by_ids = $this->Crud_model->get_type_name_by_id('member', $member_id, 'ignored_by');
+                $ignored_by_ids = json_decode($ignored_by_ids, true);
+                if (empty($ignored_by_ids)) {
+                    array_push($ignored_by_ids, 0);
+                }
+                if (!empty($ignored_ids)) {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $page_data['get_all_members'] = $this->db->where_not_in('member_id', $ignored_ids)->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data, $config['per_page'], $para1)->result();
+                }
+                else {
+                    $array_data = array('member_id !=' => $member_id, 'is_blocked' => 'no','is_closed' => 'no');
+                    $array_data = status($member_approval, $array_data);
+                    $this->db->where('gender', $member_gender);
+                    $page_data['get_all_members'] = $this->db->where_not_in('member_id', $ignored_by_ids)->get_where('member', $array_data , $config['per_page'], $para1)->result();
+                }
+            }
+        }
+
+        $page_data['count'] = $config['total_rows'];
+        $page_data['h'] = 'hello';
+        // $this->load->view('front/listing/members', $page_data);
+        $this->load->view('front/new_theme/listing/members', $page_data);
     }
 
 }
